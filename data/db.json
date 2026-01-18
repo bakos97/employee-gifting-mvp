@@ -1,0 +1,104 @@
+{
+  "employees": [
+    {
+      "id": "emp_1",
+      "name": "Alice Johnson",
+      "email": "alice@example.com",
+      "dateOfBirth": "1990-05-15",
+      "startDate": "2020-03-01",
+      "department": "Engineering"
+    },
+    {
+      "id": "emp_2",
+      "name": "Bob Smith",
+      "email": "bob@example.com",
+      "dateOfBirth": "1985-11-20",
+      "startDate": "2019-01-10",
+      "department": "Sales"
+    },
+    {
+      "id": "07db441a-cc04-4c70-80e8-c779df2f6d7a",
+      "name": "cccc",
+      "email": "christianleirvaag@gmail.com",
+      "dateOfBirth": "1997-01-19",
+      "startDate": "2026-01-05",
+      "department": "Engineering"
+    },
+    {
+      "id": "aa99c5a8-ef17-4cd6-bd71-c87bde9f1abb",
+      "name": "simen lynne",
+      "email": "lynne@hotmail.com",
+      "dateOfBirth": "1997-08-26",
+      "startDate": "1997-08-26",
+      "department": "Engineering",
+      "leavingDate": "2026-01-20"
+    },
+    {
+      "id": "852d8b9f-67d6-4251-a5d9-6be6257aa1f7",
+      "name": "test",
+      "email": "test@hotmail.com",
+      "dateOfBirth": "2026-01-18",
+      "startDate": "2026-01-18",
+      "department": "Engineering"
+    }
+  ],
+  "gifts": [
+    {
+      "id": "gift_1",
+      "name": "Premium Coffee Mug",
+      "description": "A high-quality ceramic mug with company branding.",
+      "type": "physical"
+    },
+    {
+      "id": "gift_2",
+      "name": "Amazon Gift Card",
+      "description": "$50 Amazon Gift Card.",
+      "type": "digital"
+    },
+    {
+      "id": "gift_3",
+      "name": "Wellness Hamper",
+      "description": "Selection of teas, chocolates, and candles.",
+      "type": "physical"
+    }
+  ],
+  "eventStates": {
+    "evt_bd_07db441a-cc04-4c70-80e8-c779df2f6d7a_2026": {
+      "id": "evt_bd_07db441a-cc04-4c70-80e8-c779df2f6d7a_2026",
+      "status": "COMPLETED",
+      "selectedGiftId": "gift_1",
+      "cardId": "8cb807ec-ab8f-470d-ac39-c2e8f0a1b0a5"
+    },
+    "evt_leave_aa99c5a8-ef17-4cd6-bd71-c87bde9f1abb": {
+      "id": "evt_leave_aa99c5a8-ef17-4cd6-bd71-c87bde9f1abb",
+      "status": "COMPLETED",
+      "selectedGiftId": "gift_1",
+      "cardId": "e22040f1-006e-4063-a73e-00fd2a8db6f6"
+    }
+  },
+  "cards": [
+    {
+      "id": "8cb807ec-ab8f-470d-ac39-c2e8f0a1b0a5",
+      "eventId": "evt_bd_07db441a-cc04-4c70-80e8-c779df2f6d7a_2026",
+      "recipientName": "cccc",
+      "title": "Happy occasion for cccc!",
+      "signatures": [
+        {
+          "id": "d3a0285b-145f-4877-87ba-28c99ea21b9a",
+          "name": "Simen",
+          "message": "You are a good friend",
+          "createdAt": "2026-01-18T16:13:00.703Z"
+        }
+      ],
+      "status": "DRAFT"
+    },
+    {
+      "id": "e22040f1-006e-4063-a73e-00fd2a8db6f6",
+      "eventId": "evt_leave_aa99c5a8-ef17-4cd6-bd71-c87bde9f1abb",
+      "recipientName": "simen lynne",
+      "title": "Happy occasion for simen lynne!",
+      "signatures": [],
+      "status": "DRAFT"
+    }
+  ]
+}
