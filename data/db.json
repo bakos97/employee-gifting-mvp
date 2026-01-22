@@ -97,7 +97,14 @@
       "eventId": "evt_leave_aa99c5a8-ef17-4cd6-bd71-c87bde9f1abb",
       "recipientName": "simen lynne",
       "title": "Happy occasion for simen lynne!",
-      "signatures": [],
+      "signatures": [
+        {
+          "id": "d9a9ef6b-54ff-4f6d-b307-0a7a961c99e8",
+          "name": "Test Testeson",
+          "message": "Tester en test",
+          "createdAt": "2026-01-20T16:51:51.065Z"
+        }
+      ],
       "status": "DRAFT"
     }
   ]
