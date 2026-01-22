@@ -4,6 +4,8 @@ import { EventTimeline } from './components/EventTimeline';
 import { EmployeeList } from './components/EmployeeList';
 import { Users, Calendar } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const data = await getAppData();
   const upcomingEvents = calculateUpcomingEvents(data.employees, data.eventStates, 30);

@@ -31,7 +31,7 @@ export async function addEmployee(formData: FormData) {
     };
 
     await createEmployee(newEmployee);
-    revalidatePath('/');
+    revalidatePath('/', 'layout');
     return { success: true };
 }
 
@@ -52,7 +52,7 @@ export async function selectGift(eventId: string, giftId: string) {
     state.status = 'COMPLETED';
 
     await updateEventState(state);
-    revalidatePath('/');
+    revalidatePath('/', 'layout');
     return { success: true };
 }
 
@@ -92,7 +92,7 @@ export async function createCard(eventId: string, recipientName: string) {
     // Now create card (which updates event state cardId)
     await createDbCard(newCard);
 
-    revalidatePath('/');
+    revalidatePath('/', 'layout');
     return { success: true, cardId };
 }
 
@@ -155,6 +155,6 @@ export async function updateEmployee(id: string, formData: FormData) {
         await updateEmp(employee);
     }
 
-    revalidatePath('/');
+    revalidatePath('/', 'layout');
     return { success: true };
 }

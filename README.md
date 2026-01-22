@@ -1,8 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Employee Gifting MVP
 
-## Getting Started
+## Docker & Deployment
 
-First, run the development server:
+### Local Docker
+To run the application locally with Docker (simulating the production environment):
+
+```bash
+docker-compose up --build
+```
+
+The application will be available at `http://localhost:3000`. Data will be persisted in the `./data` directory.
+
+### Deploy to Fly.io
+
+1.  **Install Fly CLI**: Follow instructions at [fly.io/docs/hands-on/install-flyctl](https://fly.io/docs/hands-on/install-flyctl/)
+2.  **Launch**: Run `fly launch` in the project root.
+    -   It will detect the Dockerfile.
+    -   When asked about PostgreSQL/Redis, say **No** (we use SQLite).
+3.  **Volumes**: To persist SQLite data, you need to mount a volume.
+    -   Update `fly.toml` to mount a volume to `/app/data`.
+    -   Create the volume: `fly vol create data_volume --size 1`
+    -   Deploy: `fly deploy`
+
+### Development
+How to run the development server:
+
 
 ```bash
 npm run dev
