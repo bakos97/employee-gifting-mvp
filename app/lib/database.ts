@@ -7,12 +7,30 @@ const DB_PATH = path.join(process.cwd(), 'data', 'employee-gifting.db');
 // Ensure data directory exists
 const dataDir = path.dirname(DB_PATH);
 if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
+  fs.mkdirSync(dataDir, { recursive: true });
 }
 
-export const db = new Database(DB_PATH);
-// Enable WAL mode for better concurrency
-db.pragma('journal_mode = WAL');
+export let db: Database.Database;
+
+try {
+  if (process.env.NODE_ENV === 'production') {
+    db = new Database(DB_PATH);
+  } else {
+    // In development, use a global variable so the database isn't re-initialized on hot reloads
+    if (!(global as any).sqliteDb) {
+      (global as any).sqliteDb = new Database(DB_PATH);
+    }
+    db = (global as any).sqliteDb;
+  }
+
+  // Enable WAL mode for better concurrency
+  db.pragma('journal_mode = WAL');
+} catch (error) {
+  console.error('Failed to open database at path:', DB_PATH);
+  console.error('Error details:', error);
+  throw error;
+}
+
 
 // Initialize Schema
 const schemaSnippet = `
