@@ -1,7 +1,7 @@
-import { getAppData } from './lib/db';
-import { calculateUpcomingEvents } from './lib/events';
-import { EventTimeline } from './components/EventTimeline';
-import { EmployeeList } from './components/EmployeeList';
+import { getAppData } from '@/app/lib/db';
+import { calculateUpcomingEvents } from '@/app/lib/events';
+import { EventTimeline } from '@/app/components/EventTimeline';
+import { EmployeeList } from '@/app/components/EmployeeList';
 import { Users, Calendar } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';

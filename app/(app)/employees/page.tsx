@@ -1,5 +1,5 @@
-import { EmployeeList } from '../components/EmployeeList';
-import { getAppData } from '../lib/db';
+import { EmployeeList } from '@/app/components/EmployeeList';
+import { getAppData } from '@/app/lib/db';
 import { Users } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';

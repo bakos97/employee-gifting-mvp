@@ -1,10 +1,10 @@
-import { getAppData } from '../../lib/db';
+import { getAppData } from '@/app/lib/db';
 import { notFound } from 'next/navigation';
 import { PenTool, MessageSquare, Send, Link as LinkIcon, Check } from 'lucide-react';
 import Link from 'next/link';
-import { cn } from '../../lib/utils'; // Assuming this maps correctly from nested layout
-import { CardSigningForm } from '../../components/CardSigningForm';
-import { ShareButton } from '../../components/ShareButton'; // Import the new component
+import { cn } from '@/app/lib/utils';
+import { CardSigningForm } from '@/app/components/CardSigningForm';
+import { ShareButton } from '@/app/components/ShareButton';
 
 export default async function CardPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
