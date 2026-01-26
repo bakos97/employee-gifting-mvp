@@ -1,45 +1,27 @@
 'use client';
 
-import { Employee, Gift, GiftEvent } from '../lib/types';
+import { Employee, GiftEvent } from '../lib/types';
 import { format, parseISO } from 'date-fns';
-import { Cake, Briefcase, LogOut, Gift as GiftIcon, CheckCircle, Snowflake } from 'lucide-react';
+import { Cake, Briefcase, LogOut, CheckCircle, Snowflake, Sparkles } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { selectGift, createCard } from '../actions';
-import { useState } from 'react';
 import Link from 'next/link';
 
 interface EventTimelineProps {
     events: GiftEvent[];
     employees: Employee[];
-    gifts: Gift[];
 }
 
-export function EventTimeline({ events, employees, gifts }: EventTimelineProps) {
-    const [loadingId, setLoadingId] = useState<string | null>(null);
-    const [creatingCardId, setCreatingCardId] = useState<string | null>(null);
-
+export function EventTimeline({ events, employees }: EventTimelineProps) {
     if (events.length === 0) {
         return (
-            <div className="p-8 border border-dashed border-white/10 rounded-xl text-center text-muted-foreground bg-zinc-900/20">
+            <div className="p-8 border border-dashed border-border rounded-xl text-center text-muted-foreground bg-muted/30">
                 No upcoming events in the next 30 days.
             </div>
         );
     }
 
-    async function handleGiftSelect(eventId: string, giftId: string) {
-        setLoadingId(eventId);
-        await selectGift(eventId, giftId);
-        setLoadingId(null);
-    }
-
-    async function handleCreateCard(eventId: string, recipientName: string) {
-        setCreatingCardId(eventId);
-        await createCard(eventId, recipientName);
-        setCreatingCardId(null);
-    }
-
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event) => {
                 const employee = employees.find((e) => e.id === event.employeeId);
                 if (!employee) return null;
@@ -50,85 +32,61 @@ export function EventTimeline({ events, employees, gifts }: EventTimelineProps) 
 
                 const Icon = isBirthday ? Cake : isAnniversary ? Briefcase : isChristmas ? Snowflake : LogOut;
 
-                // Color Logic
-                let colorClass = 'text-slate-600 bg-slate-100'; // Default / Leaving
-                if (isBirthday) colorClass = 'text-violet-600 bg-violet-100';
-                if (isAnniversary) colorClass = 'text-amber-600 bg-amber-100';
-                if (isChristmas) colorClass = 'text-emerald-600 bg-emerald-100';
+                // Color Logic - using theme variables
+                let colorClass = 'text-muted-foreground bg-muted'; // Default / Leaving
+                if (isBirthday) colorClass = 'text-primary bg-primary/10';
+                if (isAnniversary) colorClass = 'text-primary bg-secondary'; // Updated to use theme secondary
+                if (isChristmas) colorClass = 'text-primary bg-primary/20';
 
-                const label = isBirthday ? 'Birthday' : isAnniversary ? 'Work Anniversary' : isChristmas ? 'Christmas Gift' : 'Leaving';
+                const label = isBirthday ? 'Birthday' : isAnniversary ? 'Work Anniversary' : isChristmas ? 'Holiday' : 'Leaving';
 
-                const selectedGift = gifts.find(g => g.id === event.selectedGiftId);
+                const isCompleted = event.status === 'COMPLETED';
+                const isPending = event.status === 'PENDING_ACTION';
 
                 return (
-                    <div key={event.id} className="glass-card rounded-2xl p-5 relative overflow-hidden group border border-white/60">
+                    <div key={event.id} className="bg-card rounded-2xl p-6 relative overflow-hidden group border border-border shadow-sm hover:shadow-md transition-all">
                         <div className="flex justify-between items-start mb-4">
                             <div className={cn("p-2.5 rounded-xl shadow-sm", colorClass)}>
                                 <Icon className="w-5 h-5" />
                             </div>
-                            <div className="text-xs font-bold text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full">
+                            <div className="text-xs font-bold text-muted-foreground bg-muted px-3 py-1.5 rounded-full">
                                 {format(parseISO(event.date), 'MMM d, yyyy')}
                             </div>
                         </div>
 
                         <div className="space-y-1 mb-6">
-                            <h3 className="font-bold text-xl text-gray-900">{employee.name}</h3>
-                            <p className="text-sm font-medium text-gray-500">{label} &middot; {employee.department}</p>
+                            <h3 className="font-serif font-black text-xl text-foreground">{employee.name}</h3>
+                            <p className="text-sm font-medium text-muted-foreground">{label} &middot; {employee.department || 'General'}</p>
                         </div>
 
                         <div className="space-y-3">
-                            {selectedGift ? (
-                                <div className="flex items-start gap-3 p-3 rounded-xl border border-blue-100 bg-blue-50/50">
-                                    {selectedGift.image ? (
-                                        <div className="w-16 h-16 rounded-lg bg-white border border-gray-100 overflow-hidden flex-shrink-0">
-                                            <img src={selectedGift.image} alt={selectedGift.name} className="w-full h-full object-cover" />
-                                        </div>
-                                    ) : (
-                                        <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                            <GiftIcon className="w-8 h-8 text-blue-500" />
-                                        </div>
-                                    )}
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-2 text-sm text-green-700 font-bold mb-1">
-                                            <CheckCircle className="w-4 h-4 text-green-600" />
-                                            <span>Selected Gift</span>
-                                        </div>
-                                        <p className="text-gray-900 font-bold text-sm truncate">{selectedGift.name}</p>
-                                        <p className="text-gray-500 text-xs line-clamp-2">{selectedGift.description}</p>
+                            {isCompleted ? (
+                                <div className="p-4 bg-primary/5 rounded-xl border border-primary/20 flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
+                                        <CheckCircle className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <div className="text-sm font-bold text-foreground">Page Published</div>
+                                        {event.pageId && (
+                                            <Link href={`/p/template-demo`} className="text-xs text-primary hover:underline">
+                                                View Page
+                                            </Link>
+                                        )}
                                     </div>
                                 </div>
                             ) : (
-                                <div className="relative">
-                                    <select
-                                        disabled={loadingId === event.id}
-                                        onChange={(e) => {
-                                            if (e.target.value) handleGiftSelect(event.id, e.target.value);
-                                        }}
-                                        className="w-full bg-gray-50 text-gray-700 border border-gray-200 rounded-xl text-sm font-semibold py-3 pl-3 pr-8 hover:bg-white hover:shadow-md transition-all appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                        defaultValue=""
+                                <div className="space-y-2">
+                                    <div className="text-xs font-medium text-muted-foreground mb-2">
+                                        No celebration page created yet.
+                                    </div>
+                                    <Link
+                                        href={`/dashboard/pages/create?eventId=${event.id}&employeeId=${event.employeeId}`}
+                                        className="flex items-center justify-center w-full px-4 py-3 bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl transition-all shadow-lg shadow-primary/20 text-sm font-bold gap-2"
                                     >
-                                        <option value="" disabled>Select Gift...</option>
-                                        {gifts.map(g => (
-                                            <option key={g.id} value={g.id} className="text-black">{g.name}</option>
-                                        ))}
-                                    </select>
-                                    <GiftIcon className="w-4 h-4 text-gray-400 absolute right-3 top-3.5 pointer-events-none" />
+                                        <Sparkles className="w-4 h-4" />
+                                        Create Celebration Page
+                                    </Link>
                                 </div>
-                            )}
-
-                            {/* Card Feature */}
-                            {event.cardId ? (
-                                <Link href={`/card/${event.cardId}`} className="block w-full text-center px-4 py-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl transition-all border border-indigo-100 text-sm font-bold shadow-sm hover:shadow-md">
-                                    View/Sign Card
-                                </Link>
-                            ) : (
-                                <button
-                                    disabled={creatingCardId === event.id}
-                                    onClick={() => handleCreateCard(event.id, employee.name)}
-                                    className="w-full px-4 py-3 bg-white hover:bg-gray-50 text-gray-600 hover:text-primary rounded-xl transition-all border border-gray-200 hover:border-primary/30 text-sm font-bold shadow-sm"
-                                >
-                                    {creatingCardId === event.id ? 'Creating...' : 'Create Digital Card'}
-                                </button>
                             )}
                         </div>
                     </div>
