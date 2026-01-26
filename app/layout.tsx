@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Outfit } from 'next/font/google';
+import { Inter, DM_Serif_Display } from 'next/font/google';
 import './globals.css';
 
 const inter = Inter({
@@ -7,14 +7,14 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const outfit = Outfit({
+const dmSerif = DM_Serif_Display({
   subsets: ['latin'],
-  variable: '--font-outfit',
-  weight: ['700', '800', '900'],
+  variable: '--font-serif',
+  weight: ['400'],
 });
 
 export const metadata: Metadata = {
-  title: 'GiftAuto - La alle føle seg sett',
+  title: 'Giftly - La alle føle seg sett',
   description: 'Automatiser gaveprosessen og skap minnerike øyeblikk for teamet ditt. Perfekt for fjernansatte.',
 };
 
@@ -24,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="no" className={`${inter.variable} ${outfit.variable}`}>
-      <body className="min-h-screen antialiased" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
+    <html lang="no" className={`${inter.variable} ${dmSerif.variable}`}>
+      <body className="min-h-screen antialiased bg-background text-foreground font-sans">
         {children}
       </body>
     </html>

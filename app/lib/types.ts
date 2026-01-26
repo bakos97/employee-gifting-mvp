@@ -9,13 +9,23 @@ export interface Employee {
   avatarUrl?: string;
 }
 
-export interface Gift {
+export interface CelebrationPage {
   id: string;
-  name: string;
-  description: string;
-  price: number;
-  type: 'BIRTHDAY' | 'ANNIVERSARY' | 'LEAVING' | 'CHRISTMAS';
-  image?: string; // Optional for now
+  employeeId: string;
+  slug: string;
+  templateId: 'classic' | 'modern';
+  status: 'DRAFT' | 'PUBLISHED';
+  content: {
+    heroTitle: string;
+    heroSubtitle: string;
+    heroImage?: string;
+    stats: { label: string; value: string; }[];
+    timeline: { year: string; title: string; description: string; }[];
+    gallery: { src: string; caption: string; }[];
+    messages: { name: string; title: string; text: string; avatar?: string; }[];
+  };
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type EventType = 'BIRTHDAY' | 'ANNIVERSARY' | 'LEAVING' | 'CHRISTMAS';
@@ -26,35 +36,17 @@ export interface GiftEvent {
   type: EventType;
   date: string; // The date of the event for the current year
   status: 'UPCOMING' | 'PENDING_ACTION' | 'COMPLETED';
-  selectedGiftId?: string;
-  cardId?: string;
+  pageId?: string; // Replaces selectedGiftId/cardId
 }
 
 export interface EventState {
   id: string; // The event ID (e.g. evt_bd_emp1_2026)
-  selectedGiftId?: string;
-  cardId?: string;
+  pageId?: string;
   status: 'UPCOMING' | 'PENDING_ACTION' | 'COMPLETED';
-}
-
-export interface Card {
-  id: string;
-  eventId: string;
-  recipientName: string;
-  title: string;
-  signatures: {
-    id: string;
-    name: string;
-    message: string;
-    createdAt: string;
-  }[];
-  status: 'DRAFT' | 'SENT';
 }
 
 export interface AppData {
   employees: Employee[];
-  gifts: Gift[];
-  // We don't store "events" as they are calculated, but we store their state
+  pages: CelebrationPage[];
   eventStates: Record<string, EventState>;
-  cards: Card[];
 }

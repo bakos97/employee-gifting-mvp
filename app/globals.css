@@ -33,49 +33,57 @@
 }
 
 :root {
-  /* Warm, Cozy Theme */
-  --background: 30 25% 98%;
-  /* Warm off-white */
-  --foreground: 20 15% 20%;
+  /* Giftly Theme 2024 - Adjusted Palette */
 
-  --card: 0 0% 100%;
-  --card-foreground: 20 15% 20%;
+  /* Background: Slightly Darker Cream (#F2EFE9) - 5% darker than previous */
+  --background: 43 30% 92%;
 
-  --popover: 0 0% 100%;
-  --popover-foreground: 20 15% 20%;
+  /* Foreground: Very Dark Green (#0F291E) - almost black */
+  --foreground: 155 46% 11%;
 
-  /* Primary: Warm coral/rose */
-  --primary: 350 80% 60%;
+  /* Card: Soft Beige (#F7F4EF) - 96% Lightness for better blend */
+  --card: 43 25% 96%;
+  --card-foreground: 155 46% 11%;
+
+  /* Popover: Matches Card */
+  --popover: 43 25% 96%;
+  --popover-foreground: 155 46% 11%;
+
+  /* Primary: Forest Green - Lightened by 10% */
+  --primary: 157 54% 28%;
   --primary-foreground: 0 0% 100%;
+  /* White text on primary */
 
-  --secondary: 30 30% 96%;
-  --secondary-foreground: 20 5.9% 10%;
+  /* Secondary: Light Sage/Mint (#E0ECE5) - Background for Icons */
+  --secondary: 157 30% 90%;
+  --secondary-foreground: 157 54% 28%;
 
-  --muted: 30 30% 96%;
-  --muted-foreground: 20 3.8% 46.1%;
+  /* Muted: Darker Beige/Gray for borders/subtext */
+  --muted: 43 15% 85%;
+  --muted-foreground: 155 10% 40%;
 
-  --accent: 25 85% 92%;
-  /* Warm peach accent */
-  --accent-foreground: 20 5.9% 10%;
+  /* Accent: Slightly darker cream for hovers */
+  --accent: 43 30% 88%;
+  --accent-foreground: 155 54% 28%;
 
+  /* Destructive */
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 30 20% 90%;
-  --input: 30 20% 90%;
-  --ring: 350 80% 60%;
+  /* Border: Subtle Beige */
+  --border: 43 15% 85%;
+  --input: 43 15% 85%;
+  --ring: 157 54% 28%;
 
-  --radius: 0.75rem;
+  --radius: 1rem;
+  /* Rounded corners essentially everywhere */
 }
 
 @layer base {
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
-    /* Warm gradient background */
-    background: linear-gradient(135deg, #FFFBF5 0%, #FFF5EB 50%, #FFF0E6 100%);
-    background-attachment: fixed;
-    font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-inter), sans-serif;
   }
 
   h1,
@@ -84,13 +92,13 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-outfit), var(--font-inter), sans-serif;
+    font-family: var(--font-serif), serif;
   }
 }
 
 /* Glass Effect */
 .glass-card {
-  @apply bg-white/80 backdrop-blur-xl border border-white/60 shadow-lg transition-all hover:shadow-xl;
+  @apply bg-card/80 backdrop-blur-xl border border-white/20 shadow-lg transition-all hover:shadow-xl;
 }
 
 .gradient-text {

@@ -7,12 +7,11 @@ import {
     updateEmployee as updateEmp,
     getEventState,
     updateEventState,
-    createCard as createDbCard,
-    getCard,
-    addSignature,
+    createPage,
     getAppData
-} from './lib/db'; // We might not need getAppData here anymore if we fully granularize
-import { Employee, Card, EventState } from './lib/types';
+} from './lib/db';
+import { Employee, CelebrationPage, EventState } from './lib/types';
+import { redirect } from 'next/navigation';
 
 export async function addEmployee(formData: FormData) {
     const name = formData.get('name') as string;
@@ -41,79 +40,47 @@ export async function deleteEmployee(id: string) {
     return { success: true };
 }
 
-export async function selectGift(eventId: string, giftId: string) {
-    let state = await getEventState(eventId);
+export async function createCelebrationPage(
+    employeeId: string,
+    eventId: string,
+    templateId: 'classic' | 'modern',
+    content: CelebrationPage['content']
+) {
+    const pageId = crypto.randomUUID();
+    // Simple slug generator: firstname-eventtype-year or just random
+    // Ideally user sets slug, or we auto-gen.
+    // Let's allow slug to be passed or auto-gen. 
+    // For MVP: employeeName-event (we need employee name).
+    // Let's just use unique ID based slug for now or let caller handle it.
+    // I'll grab employee name from DB or assume caller passes slug.
+    // Let's infer slug from content.heroTitle for now or random.
+    const slug = `${content.heroTitle.split(' ')[0].toLowerCase()}-${Math.floor(Math.random() * 1000)}`;
 
+    const newPage: CelebrationPage = {
+        id: pageId,
+        employeeId,
+        slug,
+        templateId,
+        status: 'PUBLISHED', // Direct publish for MVP
+        content,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+    };
+
+    await createPage(newPage);
+
+    // Update Event State
+    let state = await getEventState(eventId);
     if (!state) {
         state = { id: eventId, status: 'PENDING_ACTION' };
     }
-
-    state.selectedGiftId = giftId;
+    state.pageId = pageId;
     state.status = 'COMPLETED';
 
     await updateEventState(state);
-    revalidatePath('/', 'layout');
-    return { success: true };
-}
-
-export async function createCard(eventId: string, recipientName: string) {
-    const cardId = crypto.randomUUID();
-
-    // Create new card
-    const newCard: Card = {
-        id: cardId,
-        eventId,
-        recipientName,
-        title: `Happy occasion for ${recipientName}!`,
-        signatures: [],
-        status: 'DRAFT',
-    };
-
-    // We transactionally update card and event link in db.ts if we wanted, 
-    // but here we can do it: create card, then update event state.
-    // However, I didn't verify if `createDbCard` updates event state in `db.ts`. 
-    // Wait, I put logic in `createCard` in `db.ts` to update event state!
-    // So I just need to call `createDbCard`.
-
-    // Double check logic in db.ts:
-    // It runs: INSERT INTO cards ... AND UPDATE event_states ...
-    // BUT what if event_states doesnt exist yet?
-    // Often event state is created on demand (like in selectGift).
-    // If we create a card for an event that hasn't been "touched" (no state row),
-    // the UPDATE will match 0 rows.
-    // So we should ensure event state exists first.
-
-    let state = await getEventState(eventId);
-    if (!state) {
-        state = { id: eventId, status: 'PENDING_ACTION' };
-        await updateEventState(state);
-    }
-
-    // Now create card (which updates event state cardId)
-    await createDbCard(newCard);
 
     revalidatePath('/', 'layout');
-    return { success: true, cardId };
-}
-
-export async function signCard(cardId: string, formData: FormData) {
-    const name = formData.get('name') as string;
-    const message = formData.get('message') as string;
-
-    if (!name || !message) return { success: false, error: 'Missing fields' };
-
-    const card = await getCard(cardId);
-    if (!card) return { success: false, error: 'Card not found' };
-
-    await addSignature(cardId, {
-        id: crypto.randomUUID(),
-        name,
-        message,
-        createdAt: new Date().toISOString(),
-    });
-
-    revalidatePath(`/card/${cardId}`);
-    return { success: true };
+    return { success: true, slug };
 }
 
 export async function updateEmployee(id: string, formData: FormData) {
@@ -124,24 +91,7 @@ export async function updateEmployee(id: string, formData: FormData) {
     const department = formData.get('department') as string;
     const leavingDate = formData.get('leavingDate') as string;
 
-    // Use getAppData to get emp? Or add getEmployee(id)
-    // For now I can filter from getAppData or just add getEmployee
-    // Let's rely on basic update logic: construct object.
-
-    // We need existing object to keep ID and maybe other fields if they existed?
-    // But `updateEmployee` in db.ts takes the whole object.
-    // So we need to fetch it first.
-
     const data = await getAppData();
-    // This is inefficient but compatible with previous pattern if I don't add getEmployee.
-    // Note: getAppData queries ALL. I should adding getEmployee(id) is better.
-    // For now, let's use getAppData because I didn't add getEmployee(id) to imports yet,
-    // but I did add `getEmployees` which returns list. 
-    // Wait, let's just add `getEmployee` to db.ts real quick? 
-    // I can do it in next step or just use what I have. 
-    // Using getAppData() is "safe" but slow. 
-    // Actually, `updateEmp` takes `Employee`.
-
     const employee = data.employees.find((emp) => emp.id === id);
 
     if (employee) {
