@@ -8,7 +8,7 @@ export default function AppLayout({
     return (
         <div className="flex min-h-screen">
             <Navbar />
-            <main className="flex-1 ml-64 p-8 lg:p-12">
+            <main className="flex-1 lg:ml-64 px-4 py-6 pt-16 lg:pt-12 lg:px-12">
                 {children}
             </main>
         </div>

@@ -1,9 +1,12 @@
 import { getCelebration } from '@/app/lib/db/celebrations';
 import { getResponses } from '@/app/lib/db/responses';
+import { getEmployees } from '@/app/lib/db/employees';
+import { getInvitationsForCelebration } from '@/app/lib/db/invitations';
 import { notFound } from 'next/navigation';
 import { CelebrationTypeBadge } from '@/app/components/CelebrationTypeBadge';
 import { CelebrationStatusBadge } from '@/app/components/CelebrationStatusBadge';
 import { CelebrationAdminActions } from '@/app/components/CelebrationAdminActions';
+import { SendInvitationsButton } from '@/app/components/SendInvitationsButton';
 import { ShareButton } from '@/app/components/ShareButton';
 import { MessageSquare, Users, Eye, Link as LinkIcon } from 'lucide-react';
 
@@ -17,6 +20,9 @@ export default async function CelebrationDetailPage(props: { params: Promise<{ i
 
   const responses = await getResponses(celebration.id);
   const contributorNames = [...new Set(responses.map(r => r.contributor_name))];
+  const invitations = await getInvitationsForCelebration(celebration.id);
+  const allEmployees = await getEmployees();
+  const eligibleCount = allEmployees.filter(e => e.id !== celebration.employee_id).length;
 
   const shareUrl = `/contribute/${celebration.share_token}`;
   const tributeUrl = `/tribute/${celebration.id}`;
@@ -83,6 +89,14 @@ export default async function CelebrationDetailPage(props: { params: Promise<{ i
 
       {/* Actions */}
       <CelebrationAdminActions celebration={celebration} />
+
+      {/* Email invitations */}
+      <SendInvitationsButton
+        celebrationId={celebration.id}
+        celebrationStatus={celebration.status}
+        invitations={invitations}
+        eligibleCount={eligibleCount}
+      />
 
       {/* Share link */}
       <div className="nord-card rounded-2xl p-6 space-y-3">

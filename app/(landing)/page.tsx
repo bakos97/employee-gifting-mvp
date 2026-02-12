@@ -1,11 +1,129 @@
 'use client';
 
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Heart, Sparkles, ArrowRight, Star, FileSpreadsheet, Share2, Eye, Award, Gift, Film } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, Sparkles, ArrowRight, Star, FileSpreadsheet, Share2, Eye, Award, Gift } from 'lucide-react';
 import { ThemeToggle } from '../components/ThemeToggle';
 
+function ConfettiParticle({ delay, x, y }: { delay: number; x: number; y: number }) {
+    const size = 4 + Math.random() * 6;
+    const colors = ['#f59e0b', '#d97706', '#fbbf24', '#b45309', '#fcd34d'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const endX = x + (Math.random() - 0.5) * 300;
+    const endY = y + (Math.random() - 0.5) * 300 - 100;
+    const rotation = Math.random() * 720 - 360;
+
+    return (
+        <motion.div
+            initial={{ opacity: 1, x, y, scale: 1, rotate: 0 }}
+            animate={{ opacity: 0, x: endX, y: endY, scale: 0.3, rotate: rotation }}
+            transition={{ duration: 1.2 + Math.random() * 0.5, delay, ease: 'easeOut' }}
+            className="absolute pointer-events-none"
+            style={{
+                width: size,
+                height: size,
+                borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+                backgroundColor: color,
+                left: '50%',
+                top: '50%',
+            }}
+        />
+    );
+}
+
+function GiftBoxAnimation({ onComplete }: { onComplete: () => void }) {
+    useEffect(() => {
+        const timer = setTimeout(onComplete, 3200);
+        return () => clearTimeout(timer);
+    }, [onComplete]);
+
+    return (
+        <div className="absolute inset-0 z-20 flex items-center justify-center">
+            {/* Gift box body */}
+            <motion.div
+                className="relative"
+                initial={{ scale: 1 }}
+                animate={{ scale: [1, 1.02, 1, 1.02, 1] }}
+                transition={{ duration: 1.5, ease: 'easeInOut' }}
+            >
+                {/* Box body */}
+                <motion.div
+                    className="w-52 h-40 rounded-xl relative overflow-hidden"
+                    style={{
+                        background: 'linear-gradient(145deg, #f59e0b, #d97706)',
+                        boxShadow: '0 20px 50px rgba(245, 158, 11, 0.3)',
+                    }}
+                    animate={{ opacity: 0, scale: 0.8 }}
+                    transition={{ delay: 2.2, duration: 0.5, ease: 'easeIn' }}
+                >
+                    {/* Vertical ribbon */}
+                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-6 bg-gradient-to-b from-amber-300/60 to-amber-600/60" />
+                    {/* Horizontal ribbon */}
+                    <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-6 bg-gradient-to-r from-amber-300/60 to-amber-600/60" />
+                    {/* Shine */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent" />
+                </motion.div>
+
+                {/* Lid */}
+                <motion.div
+                    className="absolute -top-4 -left-3 -right-3 h-12 rounded-xl origin-bottom"
+                    style={{
+                        background: 'linear-gradient(145deg, #fbbf24, #f59e0b)',
+                        boxShadow: '0 -4px 20px rgba(245, 158, 11, 0.2)',
+                    }}
+                    initial={{ rotateX: 0, y: 0 }}
+                    animate={{ rotateX: -40, y: -70, opacity: 0 }}
+                    transition={{ delay: 1.5, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                >
+                    {/* Ribbon on lid */}
+                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-6 bg-gradient-to-b from-amber-200/60 to-amber-500/60" />
+                    {/* Bow */}
+                    <motion.div
+                        className="absolute -top-5 left-1/2 -translate-x-1/2 flex items-center gap-0.5"
+                        animate={{ y: -60, opacity: 0 }}
+                        transition={{ delay: 1.5, duration: 0.5 }}
+                    >
+                        <div className="w-6 h-5 rounded-full border-2 border-amber-300 bg-amber-400/30 -rotate-12" />
+                        <div className="w-3 h-3 rounded-full bg-amber-400" />
+                        <div className="w-6 h-5 rounded-full border-2 border-amber-300 bg-amber-400/30 rotate-12" />
+                    </motion.div>
+                </motion.div>
+
+                {/* Left ribbon piece sliding away */}
+                <motion.div
+                    className="absolute top-1/2 -translate-y-1/2 left-0 w-1/2 h-6 bg-gradient-to-r from-amber-300/60 to-amber-600/60"
+                    animate={{ x: -80, opacity: 0 }}
+                    transition={{ delay: 2.0, duration: 0.4 }}
+                />
+                {/* Right ribbon piece sliding away */}
+                <motion.div
+                    className="absolute top-1/2 -translate-y-1/2 right-0 w-1/2 h-6 bg-gradient-to-l from-amber-300/60 to-amber-600/60"
+                    animate={{ x: 80, opacity: 0 }}
+                    transition={{ delay: 2.0, duration: 0.4 }}
+                />
+            </motion.div>
+        </div>
+    );
+}
+
 export default function LandingPage() {
+    const [giftOpened, setGiftOpened] = useState(false);
+    const [showConfetti, setShowConfetti] = useState(false);
+
+    const confettiParticles = useMemo(() =>
+        Array.from({ length: 18 }).map((_, i) => ({
+            id: i,
+            delay: 2.2 + Math.random() * 0.3,
+            x: (Math.random() - 0.5) * 40,
+            y: (Math.random() - 0.5) * 40,
+        })), []);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setShowConfetti(true), 2200);
+        return () => clearTimeout(timer);
+    }, []);
+
     const fadeUp = {
         initial: { opacity: 0, y: 30 },
         animate: { opacity: 1, y: 0 },
@@ -63,7 +181,7 @@ export default function LandingPage() {
                 </div>
 
                 <div className="max-w-7xl mx-auto px-6 w-full">
-                    <div className="grid lg:grid-cols-[1.3fr_1fr] gap-20 items-center">
+                    <div className="grid lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-20 items-center">
                         {/* Left — Editorial text */}
                         <motion.div
                             initial="initial"
@@ -115,185 +233,201 @@ export default function LandingPage() {
                             </motion.div>
                         </motion.div>
 
-                        {/* Right — Mini tribute page preview */}
+                        {/* Right — Mini tribute page preview with gift animation */}
                         <motion.div
                             initial={{ opacity: 0, y: 40, rotateY: -5 }}
                             animate={{ opacity: 1, y: 0, rotateY: 0 }}
                             transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                            className="relative hidden lg:block"
+                            className="relative"
                         >
-                            {/* Browser frame */}
-                            <div className="nord-card rounded-2xl overflow-hidden shadow-2xl shadow-black/20">
-                                {/* Title bar */}
-                                <div className="flex items-center gap-2 px-4 py-2.5 bg-surface/80 border-b border-border">
-                                    <div className="flex gap-1.5">
-                                        <div className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
-                                        <div className="w-2.5 h-2.5 rounded-full bg-amber-400/60" />
-                                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/60" />
-                                    </div>
-                                    <div className="flex-1 mx-4">
-                                        <div className="bg-background/60 border border-border rounded-lg px-3 py-1 text-[10px] text-muted-foreground text-center truncate">
-                                            tributepage.no/tribute/maria-jubileum
-                                        </div>
-                                    </div>
+                            {/* Gift box animation overlay */}
+                            <AnimatePresence>
+                                {!giftOpened && (
+                                    <GiftBoxAnimation onComplete={() => setGiftOpened(true)} />
+                                )}
+                            </AnimatePresence>
+
+                            {/* Confetti */}
+                            {showConfetti && (
+                                <div className="absolute inset-0 z-30 pointer-events-none overflow-visible">
+                                    {confettiParticles.map((p) => (
+                                        <ConfettiParticle key={p.id} delay={p.delay - 2.2} x={p.x} y={p.y} />
+                                    ))}
                                 </div>
+                            )}
 
-                                {/* Mini tribute page */}
-                                <div className="bg-background relative overflow-hidden" style={{ maxHeight: '520px' }}>
-
-                                    {/* Hero with warm photo area */}
-                                    <div className="relative">
-                                        {/* Abstract warm "photo" — team moment */}
-                                        <div className="h-36 relative overflow-hidden">
-                                            <div className="absolute inset-0" style={{
-                                                background: 'linear-gradient(135deg, hsl(25 60% 72%) 0%, hsl(35 70% 68%) 25%, hsl(340 40% 72%) 50%, hsl(30 65% 65%) 75%, hsl(45 55% 70%) 100%)'
-                                            }} />
-                                            <div className="absolute inset-0" style={{
-                                                background: 'radial-gradient(ellipse at 30% 50%, hsl(35 80% 80% / 0.6) 0%, transparent 60%), radial-gradient(ellipse at 70% 30%, hsl(350 50% 78% / 0.4) 0%, transparent 50%)'
-                                            }} />
-                                            {/* Silhouette shapes suggesting people */}
-                                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex items-end gap-1">
-                                                {[28, 34, 30, 26, 32].map((h, i) => (
-                                                    <div key={i} className="rounded-t-full bg-black/10" style={{ width: '18px', height: `${h}px` }} />
-                                                ))}
-                                            </div>
-                                            {/* Warm overlay */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+                            {/* Browser frame — fades in as gift opens */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={giftOpened ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+                                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                            >
+                                <div className="nord-card rounded-2xl overflow-hidden shadow-2xl shadow-black/20">
+                                    {/* Title bar */}
+                                    <div className="flex items-center gap-2 px-4 py-2.5 bg-surface/80 border-b border-border">
+                                        <div className="flex gap-1.5">
+                                            <div className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
+                                            <div className="w-2.5 h-2.5 rounded-full bg-amber-400/60" />
+                                            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/60" />
                                         </div>
-
-                                        {/* Title overlapping the photo */}
-                                        <div className="relative -mt-10 px-6 pb-5 text-center z-10">
-                                            <motion.div
-                                                initial={{ opacity: 0, scale: 0.8 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                transition={{ delay: 0.7, duration: 0.6 }}
-                                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-semibold uppercase tracking-wider mb-3 backdrop-blur-sm"
-                                            >
-                                                <Award className="w-3 h-3" />
-                                                Jubileumstribut
-                                            </motion.div>
-                                            <motion.h3
-                                                initial={{ opacity: 0, y: 12 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: 0.85, duration: 0.6 }}
-                                                className="text-xl font-bold text-foreground tracking-tight mb-1"
-                                                style={{ fontFamily: 'var(--font-playfair)' }}
-                                            >
-                                                Kjære Maria
-                                            </motion.h3>
-                                            <motion.p
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                transition={{ delay: 1.0 }}
-                                                className="text-[11px] text-muted-foreground italic"
-                                                style={{ fontFamily: 'var(--font-playfair)' }}
-                                            >
-                                                Takk for 10 fantastiske år sammen med oss
-                                            </motion.p>
-                                            <motion.div
-                                                initial={{ scaleX: 0 }}
-                                                animate={{ scaleX: 1 }}
-                                                transition={{ delay: 1.1, duration: 0.8 }}
-                                                className="h-[1.5px] w-16 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto mt-4 origin-center"
-                                            />
+                                        <div className="flex-1 mx-4">
+                                            <div className="bg-background/60 border border-border rounded-lg px-3 py-1 text-[10px] text-muted-foreground text-center truncate">
+                                                tributepage.no/tribute/ingrids-bursdag
+                                            </div>
                                         </div>
                                     </div>
 
-                                    {/* Appreciation quotes — flowing naturally */}
-                                    <div className="px-5 pb-4 space-y-2.5">
-                                        {[
-                                            { name: "Erik", msg: "Du er hjertet i teamet. Varmen din lyser opp selv de tyngste dagene.", rot: '-0.4deg' },
-                                            { name: "Lisa", msg: "10 år med inspirasjon. Du har formet oss alle til bedre mennesker.", rot: '0.6deg' },
-                                            { name: "Jonas", msg: "Ingen møter er det samme uten latteren din. Takk for alt.", rot: '-0.3deg' },
-                                        ].map((q, idx) => (
-                                            <motion.div
-                                                key={idx}
-                                                initial={{ opacity: 0, y: 12 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: 1.2 + idx * 0.1 }}
-                                                className="nord-card rounded-xl p-3.5"
-                                                style={{ transform: `rotate(${q.rot})` }}
-                                            >
-                                                <p className="text-[11px] italic text-foreground leading-relaxed mb-2" style={{ fontFamily: 'var(--font-playfair)' }}>
-                                                    &ldquo;{q.msg}&rdquo;
-                                                </p>
-                                                <div className="editorial-line mb-1.5" />
-                                                <p className="text-[10px] font-medium text-amber-400 text-right">&mdash; {q.name}</p>
-                                            </motion.div>
-                                        ))}
-                                    </div>
+                                    {/* Mini tribute page */}
+                                    <div className="bg-background relative overflow-hidden" style={{ maxHeight: '520px' }}>
 
-                                    {/* Gift card to kino */}
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 15 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 1.55, duration: 0.6 }}
-                                        className="px-5 pb-4"
-                                    >
-                                        <div className="relative rounded-xl overflow-hidden" style={{
-                                            background: 'linear-gradient(135deg, hsl(220 20% 18%) 0%, hsl(220 25% 12%) 100%)'
-                                        }}>
-                                            {/* Decorative film strip pattern */}
-                                            <div className="absolute top-0 left-0 right-0 flex justify-between px-2 py-1">
-                                                {Array.from({ length: 8 }).map((_, i) => (
-                                                    <div key={i} className="w-2 h-1.5 rounded-sm bg-white/8" />
-                                                ))}
-                                            </div>
-                                            <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2 py-1">
-                                                {Array.from({ length: 8 }).map((_, i) => (
-                                                    <div key={i} className="w-2 h-1.5 rounded-sm bg-white/8" />
-                                                ))}
+                                        {/* Hero with stock photo */}
+                                        <div className="relative">
+                                            <div className="h-36 relative overflow-hidden">
+                                                {/* Stock photo of professional woman */}
+                                                <img
+                                                    src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80"
+                                                    alt=""
+                                                    className="absolute inset-0 w-full h-full object-cover"
+                                                />
+                                                {/* Warm gradient overlay */}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-amber-900/30" />
                                             </div>
 
-                                            <div className="p-4 flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
-                                                    <Film className="w-5 h-5 text-amber-400" />
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <p className="text-[10px] uppercase tracking-[0.15em] text-amber-400/80 font-semibold mb-0.5">Gave fra teamet</p>
-                                                    <p className="text-sm font-bold text-white" style={{ fontFamily: 'var(--font-playfair)' }}>
-                                                        Kinogavekort
+                                            {/* Title overlapping the photo */}
+                                            <div className="relative -mt-10 px-6 pb-5 text-center z-10">
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    transition={{ delay: 3.2, duration: 0.6 }}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-semibold uppercase tracking-wider mb-3 backdrop-blur-sm"
+                                                >
+                                                    <Award className="w-3 h-3" />
+                                                    Bursdagstribut
+                                                </motion.div>
+                                                <motion.h3
+                                                    initial={{ opacity: 0, y: 12 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ delay: 3.35, duration: 0.6 }}
+                                                    className="text-xl font-bold text-foreground tracking-tight mb-1"
+                                                    style={{ fontFamily: 'var(--font-playfair)' }}
+                                                >
+                                                    Kjære Ingrid
+                                                </motion.h3>
+                                                <motion.p
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    transition={{ delay: 3.5 }}
+                                                    className="text-[11px] text-muted-foreground italic"
+                                                    style={{ fontFamily: 'var(--font-playfair)' }}
+                                                >
+                                                    Gratulerer med 50 fantastiske år!
+                                                </motion.p>
+                                                <motion.div
+                                                    initial={{ scaleX: 0 }}
+                                                    animate={{ scaleX: 1 }}
+                                                    transition={{ delay: 3.6, duration: 0.8 }}
+                                                    className="h-[1.5px] w-16 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto mt-4 origin-center"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Appreciation quotes — wholesome and specific */}
+                                        <div className="px-5 pb-4 space-y-2.5">
+                                            {[
+                                                { name: "Thomas", msg: "Hver mandag starter bedre fordi du alltid møter oss med kaffe og et smil. Du er limet som holder oss sammen.", rot: '-0.4deg' },
+                                                { name: "Camilla", msg: "Husker du da vi ble stuck på konferansen i Bergen? Vi lo så mye at vi glemte hele presentasjonen. Best. Tur. Noensinne.", rot: '0.6deg' },
+                                                { name: "Anders", msg: "Du lærte meg at det er lov å feile — og at de beste ideene ofte kommer fra de verste forslagene. Takk for tålmodigheten.", rot: '-0.3deg' },
+                                            ].map((q, idx) => (
+                                                <motion.div
+                                                    key={idx}
+                                                    initial={{ opacity: 0, y: 12 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ delay: 3.7 + idx * 0.15 }}
+                                                    className="nord-card rounded-xl p-3.5"
+                                                    style={{ transform: `rotate(${q.rot})` }}
+                                                >
+                                                    <p className="text-[11px] italic text-foreground leading-relaxed mb-2" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                                        &ldquo;{q.msg}&rdquo;
                                                     </p>
-                                                    <p className="text-[10px] text-white/50 mt-0.5">2 billetter + snacks</p>
+                                                    <div className="editorial-line mb-1.5" />
+                                                    <p className="text-[10px] font-medium text-amber-400 text-right">&mdash; {q.name}</p>
+                                                </motion.div>
+                                            ))}
+                                        </div>
+
+                                        {/* Gift card — spa experience */}
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 15 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 4.2, duration: 0.6 }}
+                                            className="px-5 pb-4"
+                                        >
+                                            <div className="relative rounded-xl overflow-hidden" style={{
+                                                background: 'linear-gradient(135deg, hsl(220 20% 18%) 0%, hsl(220 25% 12%) 100%)'
+                                            }}>
+                                                {/* Decorative pattern */}
+                                                <div className="absolute top-0 left-0 right-0 flex justify-between px-2 py-1">
+                                                    {Array.from({ length: 8 }).map((_, i) => (
+                                                        <div key={i} className="w-2 h-1.5 rounded-sm bg-white/8" />
+                                                    ))}
                                                 </div>
-                                                <div className="text-right flex-shrink-0">
-                                                    <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/20 border border-amber-500/30">
-                                                        <Gift className="w-3 h-3 text-amber-400" />
-                                                        <span className="text-[10px] font-bold text-amber-400">500 kr</span>
+                                                <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2 py-1">
+                                                    {Array.from({ length: 8 }).map((_, i) => (
+                                                        <div key={i} className="w-2 h-1.5 rounded-sm bg-white/8" />
+                                                    ))}
+                                                </div>
+
+                                                <div className="p-4 flex items-center gap-4">
+                                                    <div className="w-10 h-10 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
+                                                        <Sparkles className="w-5 h-5 text-amber-400" />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-[10px] uppercase tracking-[0.15em] text-amber-400/80 font-semibold mb-0.5">Gave fra teamet</p>
+                                                        <p className="text-sm font-bold text-white" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                                            Spa-opplevelse for to
+                                                        </p>
+                                                        <p className="text-[10px] text-white/50 mt-0.5">Avslapning og velvære</p>
+                                                    </div>
+                                                    <div className="text-right flex-shrink-0">
+                                                        <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/20 border border-amber-500/30">
+                                                            <Gift className="w-3 h-3 text-amber-400" />
+                                                            <span className="text-[10px] font-bold text-amber-400">1 500 kr</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </motion.div>
+                                        </motion.div>
 
-                                    {/* Contributors */}
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ delay: 1.7 }}
-                                        className="px-5 pb-5 text-center"
-                                    >
-                                        <div className="editorial-line max-w-[60px] mx-auto mb-3" />
-                                        <p className="text-[9px] uppercase tracking-[0.25em] text-amber-400 font-semibold mb-2">Med kjærlighet fra</p>
-                                        <div className="flex flex-wrap justify-center gap-1">
-                                            {['Erik', 'Lisa', 'Jonas', 'Kari', 'Ole', '+11'].map((name, i) => (
-                                                <span key={i} className="px-2 py-0.5 rounded-full bg-surface border border-border text-[9px] text-foreground font-medium">
-                                                    {name}
-                                                </span>
-                                            ))}
-                                        </div>
-                                        <Heart className="w-3 h-3 text-amber-400 mx-auto mt-2.5" />
-                                    </motion.div>
+                                        {/* Contributors */}
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            transition={{ delay: 4.4 }}
+                                            className="px-5 pb-5 text-center"
+                                        >
+                                            <div className="editorial-line max-w-[60px] mx-auto mb-3" />
+                                            <p className="text-[9px] uppercase tracking-[0.25em] text-amber-400 font-semibold mb-2">Med kjærlighet fra</p>
+                                            <div className="flex flex-wrap justify-center gap-1">
+                                                {['Thomas', 'Camilla', 'Anders', 'Silje', 'Marius', '+8'].map((name, i) => (
+                                                    <span key={i} className="px-2 py-0.5 rounded-full bg-surface border border-border text-[9px] text-foreground font-medium">
+                                                        {name}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                            <Heart className="w-3 h-3 text-amber-400 mx-auto mt-2.5" />
+                                        </motion.div>
 
-                                    {/* Fade at bottom */}
-                                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+                                        {/* Fade at bottom */}
+                                        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+                                    </div>
                                 </div>
-                            </div>
+                            </motion.div>
 
                             {/* Floating badge */}
                             <motion.div
-                                animate={{ y: [-4, 4, -4] }}
-                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={giftOpened ? { opacity: 1, scale: 1, y: [-4, 4, -4] } : { opacity: 0, scale: 0.5 }}
+                                transition={giftOpened ? { y: { duration: 4, repeat: Infinity, ease: "easeInOut" }, opacity: { duration: 0.4 }, scale: { duration: 0.4 } } : { duration: 0.3 }}
                                 className="absolute -top-3 -right-3 bg-amber-500 text-white px-4 py-2 rounded-full shadow-lg shadow-amber-500/30 text-sm font-semibold z-10 flex items-center gap-1.5"
                             >
                                 <Gift className="w-3.5 h-3.5" />

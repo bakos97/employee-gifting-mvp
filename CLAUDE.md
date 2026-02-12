@@ -43,11 +43,15 @@ Server components fetch data from the Supabase data layer → render UI. Mutatio
 - `app/lib/db/questions.ts` — CRUD for questions
 - `app/lib/db/responses.ts` — CRUD for responses
 - `app/lib/db/storage.ts` — Image upload/delete via Supabase Storage
+- `app/lib/db/invitations.ts` — CRUD for email invitations
+- `app/lib/email/resend.ts` — Resend client (singleton)
+- `app/lib/email/templates/invitation.ts` — Norwegian HTML email template
 - `app/actions/employees.ts` — Employee server actions
 - `app/actions/celebrations.ts` — Celebration server actions
 - `app/actions/questions.ts` — Question server actions
 - `app/actions/responses.ts` — Response/contribution server actions
 - `app/actions/import-employees.ts` — Excel import server action
+- `app/actions/invitations.ts` — Email invitation server actions (via Resend)
 
 ### User Flow
 
@@ -75,6 +79,7 @@ Supabase (PostgreSQL) with the following tables:
 - `celebrations` — celebration events linked to employees
 - `questions` — configurable questions per celebration
 - `responses` — contributor answers (text + optional image)
+- `invitations` — email invitation tracking (status, sent_at, errors)
 
 ### Supabase Storage
 
@@ -87,6 +92,8 @@ Path convention: `celebrations/{celebration_id}/{response_id}/{filename}`
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
+RESEND_API_KEY=...
+NEXT_PUBLIC_SITE_URL=...  # e.g. https://employee-gifting-mvp.fly.dev
 ```
 
 ## Key Conventions

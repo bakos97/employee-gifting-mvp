@@ -68,3 +68,21 @@ export interface ImportResult {
   skipped: number;
   errors: string[];
 }
+
+export type InvitationStatus = 'pending' | 'sent' | 'failed';
+
+export interface Invitation {
+  id: string;
+  celebration_id: string;
+  employee_id: string;
+  email: string;
+  status: InvitationStatus;
+  sent_at?: string | null;
+  reminder_sent_at?: string | null;
+  error_message?: string | null;
+  created_at?: string;
+}
+
+export interface InvitationWithEmployee extends Invitation {
+  employee: Employee;
+}
