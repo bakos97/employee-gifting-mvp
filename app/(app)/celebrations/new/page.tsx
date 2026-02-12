@@ -13,10 +13,10 @@ export default async function NewCelebrationPage() {
       <div className="space-y-2">
         <p className="text-xs uppercase tracking-[0.2em] text-amber-400 font-semibold">Ny feiring</p>
         <h1 className="text-4xl font-bold tracking-tight text-foreground" style={{ fontFamily: 'var(--font-playfair)' }}>
-          Opprett tribute
+          Opprett hyllest
         </h1>
         <p className="text-muted-foreground max-w-2xl">
-          Lag en personlig tribute-side der kollegaer kan dele minner, hilsener og bilder.
+          Lag en personlig hyllestside der kollegaer kan dele minner, hilsener og bilder.
         </p>
       </div>
 

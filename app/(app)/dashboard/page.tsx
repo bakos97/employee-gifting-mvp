@@ -83,7 +83,7 @@ export default async function DashboardPage() {
           <h3 className="text-xl font-semibold text-foreground mb-2" style={{ fontFamily: 'var(--font-playfair)' }}>
             Ingen feiringer ennå
           </h3>
-          <p className="text-muted-foreground mb-6">Opprett din første tribute og la teamet dele fine ord.</p>
+          <p className="text-muted-foreground mb-6">Opprett din første hyllest og la teamet dele fine ord.</p>
           <Link
             href="/celebrations/new"
             className="inline-flex items-center gap-2 px-6 py-3 bg-amber-500 text-white font-semibold rounded-xl hover:bg-amber-400 transition-all"

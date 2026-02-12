@@ -121,7 +121,7 @@ export function CelebrationWizard({ employees }: CelebrationWizardProps) {
             <h2 className="text-2xl font-bold text-foreground" style={{ fontFamily: 'var(--font-playfair)' }}>
               Hvem skal feires?
             </h2>
-            <p className="text-sm text-muted-foreground mt-1">Velg teammedlemmet du vil lage en tribute til.</p>
+            <p className="text-sm text-muted-foreground mt-1">Velg teammedlemmet du vil lage en hyllest til.</p>
           </div>
 
           <div className="grid gap-2">

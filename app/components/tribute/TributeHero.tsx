@@ -61,7 +61,7 @@ export function TributeHero({ employeeName, title, type, customTypeLabel, contri
           transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="text-lg text-muted-foreground"
         >
-          En tribute til <span className="text-amber-400 font-semibold">{employeeName}</span> fra {contributorCount} kollega{contributorCount !== 1 ? 'er' : ''}
+          En hyllest til <span className="text-amber-400 font-semibold">{employeeName}</span> fra {contributorCount} kollega{contributorCount !== 1 ? 'er' : ''}
         </motion.p>
 
         <motion.div

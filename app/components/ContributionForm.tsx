@@ -47,7 +47,7 @@ export function ContributionForm({ celebration }: ContributionFormProps) {
             Takk for bidraget!
           </h2>
           <p className="text-muted-foreground text-lg">
-            Dine hilsener er lagt til i tributen til {celebration.employee.name}.
+            Dine hilsener er lagt til i hyllesten til {celebration.employee.name}.
           </p>
         </div>
         <div className="flex items-center justify-center gap-1 text-amber-400">

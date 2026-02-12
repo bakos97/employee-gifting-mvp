@@ -13,7 +13,7 @@ interface Props {
 
 const statusActions: { from: CelebrationStatus; to: CelebrationStatus; label: string; icon: typeof Play; color: string }[] = [
   { from: 'draft', to: 'collecting', label: 'Start innsamling', icon: Play, color: 'bg-amber-500 hover:bg-amber-400 text-white' },
-  { from: 'collecting', to: 'published', label: 'Publiser tribute', icon: Eye, color: 'bg-emerald-500 hover:bg-emerald-400 text-white' },
+  { from: 'collecting', to: 'published', label: 'Publiser hyllest', icon: Eye, color: 'bg-emerald-500 hover:bg-emerald-400 text-white' },
   { from: 'published', to: 'archived', label: 'Arkiver', icon: Archive, color: 'bg-surface hover:bg-[hsl(220_12%_14%)] text-muted-foreground border border-border' },
 ];
 
