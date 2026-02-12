@@ -43,7 +43,7 @@ export function Navbar() {
                     </div>
                     <div>
                         <span className="text-lg font-semibold tracking-tight text-[hsl(var(--sidebar-text))]" style={{ fontFamily: 'var(--font-playfair)' }}>
-                            Tribute<span className="text-amber-400">Page</span>
+                            Hylles<span className="text-amber-400">t</span>
                         </span>
                     </div>
                 </Link>
@@ -84,7 +84,7 @@ export function Navbar() {
             <div className="px-5 py-5 border-t border-[hsl(var(--sidebar-border))]">
                 <div className="flex items-center justify-between">
                     <p className="text-[10px] uppercase tracking-[0.2em] text-[hsl(var(--sidebar-muted))] font-medium">
-                        TributePage
+                        Hyllest
                     </p>
                     <ThemeToggle variant="sidebar" />
                 </div>

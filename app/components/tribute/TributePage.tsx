@@ -82,7 +82,7 @@ export function TributePage({ data }: TributePageProps) {
             <Heart className="w-3.5 h-3.5 text-amber-400" />
             <span>av</span>
             <span className="font-semibold" style={{ fontFamily: 'var(--font-playfair)' }}>
-              Tribute<span className="text-amber-400">Page</span>
+              Hylles<span className="text-amber-400">t</span>
             </span>
           </div>
         </div>

@@ -12,11 +12,11 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
   const params = await props.params;
   const celebration = await getCelebration(params.id);
 
-  if (!celebration) return { title: 'Tribute' };
+  if (!celebration) return { title: 'Hyllest' };
 
   return {
-    title: `${celebration.title} | TributePage`,
-    description: `En tribute til ${celebration.employee.name} fra kollegaer`,
+    title: `${celebration.title} | Hyllest`,
+    description: `En hyllest til ${celebration.employee.name} fra kollegaer`,
   };
 }
 

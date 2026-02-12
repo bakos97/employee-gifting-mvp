@@ -114,7 +114,7 @@ export default async function CelebrationDetailPage(props: { params: Promise<{ i
           <div className="pt-3 border-t border-border">
             <div className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
               <Eye className="w-4 h-4 text-amber-400" />
-              Tribute-side
+              Hyllestside
             </div>
             <div className="flex items-center gap-3">
               <code className="flex-1 px-4 py-2.5 bg-surface rounded-xl text-sm text-muted-foreground border border-border truncate">

@@ -35,7 +35,7 @@ export default async function ContributePage(props: { params: Promise<{ token: s
             <p className="text-muted-foreground">
               {celebration.status === 'draft'
                 ? 'Sjekk tilbake litt senere!'
-                : `Tributen til ${celebration.employee.name} er allerede ferdig.`}
+                : `Hyllesten til ${celebration.employee.name} er allerede ferdig.`}
             </p>
           </div>
         </div>

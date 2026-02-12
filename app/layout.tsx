@@ -16,8 +16,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'TributePage - Lag personlige tribute-sider for kollegaer',
-  description: 'Samle hilsener, minner og bilder fra teamet og skap vakre tribute-sider som gaver til kollegaer.',
+  title: 'Hyllest - Sørg for at ingen kollegaer blir glemt',
+  description: 'Samle personlige hilsener fra hele teamet. Bursdager, jubileer og avskjeder — uten ekstra arbeid for HR.',
 };
 
 export default function RootLayout({
