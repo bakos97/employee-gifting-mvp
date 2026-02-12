@@ -3,22 +3,22 @@
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkles, ArrowRight, Star, FileSpreadsheet, Share2, Eye, Award, Gift } from 'lucide-react';
+import { Heart, Sparkles, ArrowRight, FileSpreadsheet, Share2, Eye, Award, Gift, CalendarCheck, Clock } from 'lucide-react';
 import { ThemeToggle } from '../components/ThemeToggle';
 
 function ConfettiParticle({ delay, x, y }: { delay: number; x: number; y: number }) {
     const size = 4 + Math.random() * 6;
-    const colors = ['#f59e0b', '#d97706', '#fbbf24', '#b45309', '#fcd34d'];
+    const colors = ['#f59e0b', '#d97706', '#fbbf24', '#b45309', '#fcd34d', '#fff7ed'];
     const color = colors[Math.floor(Math.random() * colors.length)];
-    const endX = x + (Math.random() - 0.5) * 300;
-    const endY = y + (Math.random() - 0.5) * 300 - 100;
+    const endX = x + (Math.random() - 0.5) * 320;
+    const endY = y + (Math.random() - 0.5) * 320 - 120;
     const rotation = Math.random() * 720 - 360;
 
     return (
         <motion.div
             initial={{ opacity: 1, x, y, scale: 1, rotate: 0 }}
-            animate={{ opacity: 0, x: endX, y: endY, scale: 0.3, rotate: rotation }}
-            transition={{ duration: 1.2 + Math.random() * 0.5, delay, ease: 'easeOut' }}
+            animate={{ opacity: 0, x: endX, y: endY, scale: 0.2, rotate: rotation }}
+            transition={{ duration: 1.4 + Math.random() * 0.5, delay, ease: 'easeOut' }}
             className="absolute pointer-events-none"
             style={{
                 width: size,
@@ -34,74 +34,143 @@ function ConfettiParticle({ delay, x, y }: { delay: number; x: number; y: number
 
 function GiftBoxAnimation({ onComplete }: { onComplete: () => void }) {
     useEffect(() => {
-        const timer = setTimeout(onComplete, 3200);
+        const timer = setTimeout(onComplete, 2200);
         return () => clearTimeout(timer);
     }, [onComplete]);
 
     return (
-        <div className="absolute inset-0 z-20 flex items-center justify-center">
-            {/* Gift box body */}
+        <div className="absolute inset-0 z-20 flex items-center justify-center" style={{ perspective: '600px' }}>
             <motion.div
                 className="relative"
                 initial={{ scale: 1 }}
-                animate={{ scale: [1, 1.02, 1, 1.02, 1] }}
-                transition={{ duration: 1.5, ease: 'easeInOut' }}
+                animate={{ scale: [1, 1.015, 1, 1.015, 1, 1.01, 1] }}
+                transition={{ duration: 1.0, ease: 'easeInOut' }}
             >
+                {/* Ambient glow behind box */}
+                <motion.div
+                    className="absolute -inset-8 rounded-full blur-3xl"
+                    style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.25) 0%, transparent 70%)' }}
+                    animate={{ opacity: [0.4, 0.7, 0.4] }}
+                    transition={{ duration: 1.0, ease: 'easeInOut' }}
+                />
+
                 {/* Box body */}
                 <motion.div
-                    className="w-52 h-40 rounded-xl relative overflow-hidden"
+                    className="w-44 h-36 sm:w-56 sm:h-44 rounded-2xl relative overflow-hidden"
                     style={{
-                        background: 'linear-gradient(145deg, #f59e0b, #d97706)',
-                        boxShadow: '0 20px 50px rgba(245, 158, 11, 0.3)',
+                        background: 'linear-gradient(155deg, #fbbf24 0%, #f59e0b 30%, #d97706 70%, #b45309 100%)',
+                        boxShadow: '0 25px 60px rgba(180, 83, 9, 0.4), 0 8px 20px rgba(245, 158, 11, 0.2), inset 0 1px 0 rgba(255,255,255,0.3)',
                     }}
-                    animate={{ opacity: 0, scale: 0.8 }}
-                    transition={{ delay: 2.2, duration: 0.5, ease: 'easeIn' }}
+                    animate={{ opacity: 0, scale: 0.7 }}
+                    transition={{ delay: 1.6, duration: 0.4, ease: 'easeIn' }}
                 >
+                    {/* Diagonal stripe texture */}
+                    <div className="absolute inset-0 opacity-[0.07]" style={{
+                        backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 8px, white 8px, white 9px)',
+                    }} />
+                    {/* Inner shadow for depth */}
+                    <div className="absolute inset-0 rounded-2xl" style={{
+                        boxShadow: 'inset 0 -8px 20px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.2)',
+                    }} />
+
                     {/* Vertical ribbon */}
-                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-6 bg-gradient-to-b from-amber-300/60 to-amber-600/60" />
+                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-8">
+                        <div className="absolute inset-0 bg-gradient-to-r from-red-600/80 via-red-500/90 to-red-600/80" />
+                        <div className="absolute inset-y-0 left-1 w-[1px] bg-white/20" />
+                        <div className="absolute inset-y-0 right-1 w-[1px] bg-white/20" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/10" />
+                    </div>
                     {/* Horizontal ribbon */}
-                    <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-6 bg-gradient-to-r from-amber-300/60 to-amber-600/60" />
-                    {/* Shine */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent" />
+                    <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-8">
+                        <div className="absolute inset-0 bg-gradient-to-b from-red-600/80 via-red-500/90 to-red-600/80" />
+                        <div className="absolute inset-x-0 top-1 h-[1px] bg-white/20" />
+                        <div className="absolute inset-x-0 bottom-1 h-[1px] bg-white/20" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-black/10" />
+                    </div>
+
+                    {/* Corner highlight */}
+                    <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-white/15 to-transparent rounded-tl-2xl" />
+                    {/* Bottom shadow */}
+                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black/10 to-transparent" />
                 </motion.div>
 
                 {/* Lid */}
                 <motion.div
-                    className="absolute -top-4 -left-3 -right-3 h-12 rounded-xl origin-bottom"
+                    className="absolute -top-5 -left-4 -right-4 h-14 rounded-2xl origin-bottom"
                     style={{
-                        background: 'linear-gradient(145deg, #fbbf24, #f59e0b)',
-                        boxShadow: '0 -4px 20px rgba(245, 158, 11, 0.2)',
+                        background: 'linear-gradient(155deg, #fcd34d 0%, #fbbf24 30%, #f59e0b 70%, #d97706 100%)',
+                        boxShadow: '0 -6px 25px rgba(245, 158, 11, 0.25), 0 4px 12px rgba(0,0,0,0.1), inset 0 2px 0 rgba(255,255,255,0.3)',
                     }}
                     initial={{ rotateX: 0, y: 0 }}
-                    animate={{ rotateX: -40, y: -70, opacity: 0 }}
-                    transition={{ delay: 1.5, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    animate={{ rotateX: -45, y: -80, opacity: 0 }}
+                    transition={{ delay: 1.0, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 >
+                    {/* Lid diagonal texture */}
+                    <div className="absolute inset-0 rounded-2xl opacity-[0.07]" style={{
+                        backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 8px, white 8px, white 9px)',
+                    }} />
+                    {/* Lid edge bevel */}
+                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-b from-transparent to-black/15 rounded-b-2xl" />
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-b from-white/25 to-transparent rounded-t-2xl" />
                     {/* Ribbon on lid */}
-                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-6 bg-gradient-to-b from-amber-200/60 to-amber-500/60" />
+                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-8">
+                        <div className="absolute inset-0 bg-gradient-to-r from-red-600/80 via-red-500/90 to-red-600/80" />
+                        <div className="absolute inset-y-0 left-1 w-[1px] bg-white/20" />
+                        <div className="absolute inset-y-0 right-1 w-[1px] bg-white/20" />
+                    </div>
+
                     {/* Bow */}
                     <motion.div
-                        className="absolute -top-5 left-1/2 -translate-x-1/2 flex items-center gap-0.5"
-                        animate={{ y: -60, opacity: 0 }}
-                        transition={{ delay: 1.5, duration: 0.5 }}
+                        className="absolute -top-7 left-1/2 -translate-x-1/2 flex items-end gap-0"
+                        animate={{ y: -70, opacity: 0 }}
+                        transition={{ delay: 1.0, duration: 0.4 }}
                     >
-                        <div className="w-6 h-5 rounded-full border-2 border-amber-300 bg-amber-400/30 -rotate-12" />
-                        <div className="w-3 h-3 rounded-full bg-amber-400" />
-                        <div className="w-6 h-5 rounded-full border-2 border-amber-300 bg-amber-400/30 rotate-12" />
+                        {/* Left loop */}
+                        <div className="w-8 h-7 rounded-full border-[2.5px] border-red-500 bg-red-400/20 -rotate-[25deg] translate-x-1" style={{
+                            boxShadow: 'inset 0 -2px 4px rgba(0,0,0,0.1), 0 2px 6px rgba(220,38,38,0.2)',
+                        }} />
+                        {/* Center knot */}
+                        <div className="w-4 h-4 rounded-full bg-gradient-to-br from-red-400 to-red-600 z-10 -mb-0.5 shadow-md" />
+                        {/* Right loop */}
+                        <div className="w-8 h-7 rounded-full border-[2.5px] border-red-500 bg-red-400/20 rotate-[25deg] -translate-x-1" style={{
+                            boxShadow: 'inset 0 -2px 4px rgba(0,0,0,0.1), 0 2px 6px rgba(220,38,38,0.2)',
+                        }} />
+                        {/* Tails */}
+                        <div className="absolute -bottom-3 left-1/2 -translate-x-[10px] w-3 h-4 bg-gradient-to-b from-red-500 to-red-600 rounded-b-full -rotate-12 opacity-80" />
+                        <div className="absolute -bottom-3 left-1/2 translate-x-[2px] w-3 h-4 bg-gradient-to-b from-red-500 to-red-600 rounded-b-full rotate-12 opacity-80" />
                     </motion.div>
                 </motion.div>
 
-                {/* Left ribbon piece sliding away */}
+                {/* Ribbon pieces sliding away */}
                 <motion.div
-                    className="absolute top-1/2 -translate-y-1/2 left-0 w-1/2 h-6 bg-gradient-to-r from-amber-300/60 to-amber-600/60"
-                    animate={{ x: -80, opacity: 0 }}
-                    transition={{ delay: 2.0, duration: 0.4 }}
-                />
-                {/* Right ribbon piece sliding away */}
+                    className="absolute top-1/2 -translate-y-1/2 left-0 w-1/2 h-8"
+                    animate={{ x: -90, opacity: 0 }}
+                    transition={{ delay: 1.4, duration: 0.35 }}
+                >
+                    <div className="absolute inset-0 bg-gradient-to-b from-red-600/80 via-red-500/90 to-red-600/80" />
+                </motion.div>
                 <motion.div
-                    className="absolute top-1/2 -translate-y-1/2 right-0 w-1/2 h-6 bg-gradient-to-l from-amber-300/60 to-amber-600/60"
-                    animate={{ x: 80, opacity: 0 }}
-                    transition={{ delay: 2.0, duration: 0.4 }}
-                />
+                    className="absolute top-1/2 -translate-y-1/2 right-0 w-1/2 h-8"
+                    animate={{ x: 90, opacity: 0 }}
+                    transition={{ delay: 1.4, duration: 0.35 }}
+                >
+                    <div className="absolute inset-0 bg-gradient-to-b from-red-600/80 via-red-500/90 to-red-600/80" />
+                </motion.div>
+
+                {/* Sparkle hints on box */}
+                {[
+                    { top: '10%', left: '15%', delay: 0.3, size: 3 },
+                    { top: '60%', right: '12%', delay: 0.6, size: 4 },
+                    { top: '25%', right: '25%', delay: 0.9, size: 2.5 },
+                ].map((s, i) => (
+                    <motion.div
+                        key={i}
+                        className="absolute rounded-full bg-white"
+                        style={{ width: s.size, height: s.size, top: s.top, left: s.left, right: s.right }}
+                        animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 0.5] }}
+                        transition={{ delay: s.delay, duration: 0.8, repeat: 1, repeatDelay: 0.4 }}
+                    />
+                ))}
             </motion.div>
         </div>
     );
@@ -112,15 +181,15 @@ export default function LandingPage() {
     const [showConfetti, setShowConfetti] = useState(false);
 
     const confettiParticles = useMemo(() =>
-        Array.from({ length: 18 }).map((_, i) => ({
+        Array.from({ length: 22 }).map((_, i) => ({
             id: i,
-            delay: 2.2 + Math.random() * 0.3,
-            x: (Math.random() - 0.5) * 40,
-            y: (Math.random() - 0.5) * 40,
+            delay: Math.random() * 0.4,
+            x: (Math.random() - 0.5) * 50,
+            y: (Math.random() - 0.5) * 50,
         })), []);
 
     useEffect(() => {
-        const timer = setTimeout(() => setShowConfetti(true), 2200);
+        const timer = setTimeout(() => setShowConfetti(true), 1600);
         return () => clearTimeout(timer);
     }, []);
 
@@ -153,7 +222,7 @@ export default function LandingPage() {
                             <Heart className="w-4.5 h-4.5 text-background" />
                         </div>
                         <span className="text-xl font-semibold tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
-                            Tribute<span className="text-amber-400">Page</span>
+                            Hylles<span className="text-amber-400">t</span>
                         </span>
                     </div>
                     <div className="flex items-center gap-4">
@@ -169,7 +238,7 @@ export default function LandingPage() {
             </motion.nav>
 
             {/* Hero Section */}
-            <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+            <section className="relative min-h-[calc(100dvh-4rem)] lg:min-h-screen flex items-start lg:items-center pt-24 pb-12 lg:pt-20 lg:pb-0 overflow-hidden">
                 {/* Background elements */}
                 <div className="absolute inset-0 -z-10">
                     <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[120px]" />
@@ -181,27 +250,19 @@ export default function LandingPage() {
                 </div>
 
                 <div className="max-w-7xl mx-auto px-6 w-full">
-                    <div className="grid lg:grid-cols-[1.3fr_1fr] gap-12 lg:gap-20 items-center">
+                    <div className="grid lg:grid-cols-[1.3fr_1fr] gap-8 md:gap-12 lg:gap-20 items-center">
                         {/* Left — Editorial text */}
                         <motion.div
                             initial="initial"
                             animate="animate"
                             variants={stagger}
-                            className="space-y-10"
+                            className="space-y-6 sm:space-y-10"
                         >
-                            <motion.div variants={fadeUp}>
-                                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold tracking-wider uppercase border border-amber-500/20">
-                                    <Sparkles className="w-3.5 h-3.5" />
-                                    Personlige tribute-sider
-                                </span>
-                            </motion.div>
-
-                            <motion.h1 variants={fadeUp} className="text-5xl md:text-6xl lg:text-[5.5rem] font-bold leading-[0.95] tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
-                                Skap minner{' '}
+                            <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-bold leading-[0.95] tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                Ingen blir{' '}
                                 <br className="hidden md:block" />
-                                som{' '}
                                 <span className="relative inline-block">
-                                    <span className="text-amber-400 italic">varmer</span>
+                                    <span className="text-amber-400 italic">glemt</span>
                                     <motion.span
                                         initial={{ scaleX: 0 }}
                                         animate={{ scaleX: 1 }}
@@ -211,10 +272,25 @@ export default function LandingPage() {
                                 </span>
                             </motion.h1>
 
-                            <motion.p variants={fadeUp} className="text-lg text-muted-foreground leading-relaxed max-w-lg" style={{ fontFamily: 'var(--font-sora)' }}>
-                                Samle hilsener, minner og bilder fra hele teamet.
-                                Skap en vakker tribute-side som gir kollegaen din en gave de aldri glemmer.
+                            <motion.p variants={fadeUp} className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg" style={{ fontFamily: 'var(--font-sora)' }}>
+                                Bursdager, jubileer og avskjeder &mdash; vi holder styr p&aring; alt.
+                                Samle personlige hilsener fra hele teamet p&aring; bare noen minutter, helt uten ekstra arbeid for HR.
                             </motion.p>
+
+                            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
+                                <span className="flex items-center gap-2">
+                                    <CalendarCheck className="w-4 h-4 text-amber-400" />
+                                    Automatiske p&aring;minnelser
+                                </span>
+                                <span className="flex items-center gap-2">
+                                    <Clock className="w-4 h-4 text-amber-400" />
+                                    Ferdig p&aring; 2 min
+                                </span>
+                                <span className="flex items-center gap-2">
+                                    <Heart className="w-4 h-4 text-amber-400" />
+                                    Personlig hver gang
+                                </span>
+                            </motion.div>
 
                             <motion.div variants={fadeUp} className="flex flex-wrap gap-4 pt-2">
                                 <Link
@@ -233,7 +309,7 @@ export default function LandingPage() {
                             </motion.div>
                         </motion.div>
 
-                        {/* Right — Mini tribute page preview with gift animation */}
+                        {/* Right — Mini celebration page preview with gift animation */}
                         <motion.div
                             initial={{ opacity: 0, y: 40, rotateY: -5 }}
                             animate={{ opacity: 1, y: 0, rotateY: 0 }}
@@ -251,7 +327,7 @@ export default function LandingPage() {
                             {showConfetti && (
                                 <div className="absolute inset-0 z-30 pointer-events-none overflow-visible">
                                     {confettiParticles.map((p) => (
-                                        <ConfettiParticle key={p.id} delay={p.delay - 2.2} x={p.x} y={p.y} />
+                                        <ConfettiParticle key={p.id} delay={p.delay} x={p.x} y={p.y} />
                                     ))}
                                 </div>
                             )}
@@ -260,7 +336,7 @@ export default function LandingPage() {
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={giftOpened ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-                                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                             >
                                 <div className="nord-card rounded-2xl overflow-hidden shadow-2xl shadow-black/20">
                                     {/* Title bar */}
@@ -272,24 +348,22 @@ export default function LandingPage() {
                                         </div>
                                         <div className="flex-1 mx-4">
                                             <div className="bg-background/60 border border-border rounded-lg px-3 py-1 text-[10px] text-muted-foreground text-center truncate">
-                                                tributepage.no/tribute/ingrids-bursdag
+                                                hyllest.no/feiring/ingrids-bursdag
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Mini tribute page */}
-                                    <div className="bg-background relative overflow-hidden" style={{ maxHeight: '520px' }}>
+                                    {/* Mini celebration page */}
+                                    <div className="bg-background relative overflow-hidden max-h-[420px] sm:max-h-[520px]">
 
                                         {/* Hero with stock photo */}
                                         <div className="relative">
                                             <div className="h-36 relative overflow-hidden">
-                                                {/* Stock photo of professional woman */}
                                                 <img
                                                     src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80"
                                                     alt=""
                                                     className="absolute inset-0 w-full h-full object-cover"
                                                 />
-                                                {/* Warm gradient overlay */}
                                                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-amber-900/30" />
                                             </div>
 
@@ -297,17 +371,17 @@ export default function LandingPage() {
                                             <div className="relative -mt-10 px-6 pb-5 text-center z-10">
                                                 <motion.div
                                                     initial={{ opacity: 0, scale: 0.8 }}
-                                                    animate={{ opacity: 1, scale: 1 }}
-                                                    transition={{ delay: 3.2, duration: 0.6 }}
+                                                    animate={giftOpened ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                                                    transition={{ delay: 0.1, duration: 0.5 }}
                                                     className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-semibold uppercase tracking-wider mb-3 backdrop-blur-sm"
                                                 >
                                                     <Award className="w-3 h-3" />
-                                                    Bursdagstribut
+                                                    Bursdagsfeiring
                                                 </motion.div>
                                                 <motion.h3
                                                     initial={{ opacity: 0, y: 12 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ delay: 3.35, duration: 0.6 }}
+                                                    animate={giftOpened ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                                                    transition={{ delay: 0.2, duration: 0.5 }}
                                                     className="text-xl font-bold text-foreground tracking-tight mb-1"
                                                     style={{ fontFamily: 'var(--font-playfair)' }}
                                                 >
@@ -315,8 +389,8 @@ export default function LandingPage() {
                                                 </motion.h3>
                                                 <motion.p
                                                     initial={{ opacity: 0 }}
-                                                    animate={{ opacity: 1 }}
-                                                    transition={{ delay: 3.5 }}
+                                                    animate={giftOpened ? { opacity: 1 } : { opacity: 0 }}
+                                                    transition={{ delay: 0.3 }}
                                                     className="text-[11px] text-muted-foreground italic"
                                                     style={{ fontFamily: 'var(--font-playfair)' }}
                                                 >
@@ -324,14 +398,14 @@ export default function LandingPage() {
                                                 </motion.p>
                                                 <motion.div
                                                     initial={{ scaleX: 0 }}
-                                                    animate={{ scaleX: 1 }}
-                                                    transition={{ delay: 3.6, duration: 0.8 }}
+                                                    animate={giftOpened ? { scaleX: 1 } : { scaleX: 0 }}
+                                                    transition={{ delay: 0.35, duration: 0.8 }}
                                                     className="h-[1.5px] w-16 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto mt-4 origin-center"
                                                 />
                                             </div>
                                         </div>
 
-                                        {/* Appreciation quotes — wholesome and specific */}
+                                        {/* Appreciation quotes */}
                                         <div className="px-5 pb-4 space-y-2.5">
                                             {[
                                                 { name: "Thomas", msg: "Hver mandag starter bedre fordi du alltid møter oss med kaffe og et smil. Du er limet som holder oss sammen.", rot: '-0.4deg' },
@@ -341,8 +415,8 @@ export default function LandingPage() {
                                                 <motion.div
                                                     key={idx}
                                                     initial={{ opacity: 0, y: 12 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ delay: 3.7 + idx * 0.15 }}
+                                                    animate={giftOpened ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                                                    transition={{ delay: 0.4 + idx * 0.12 }}
                                                     className="nord-card rounded-xl p-3.5"
                                                     style={{ transform: `rotate(${q.rot})` }}
                                                 >
@@ -358,14 +432,13 @@ export default function LandingPage() {
                                         {/* Gift card — spa experience */}
                                         <motion.div
                                             initial={{ opacity: 0, y: 15 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 4.2, duration: 0.6 }}
+                                            animate={giftOpened ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+                                            transition={{ delay: 0.8, duration: 0.5 }}
                                             className="px-5 pb-4"
                                         >
                                             <div className="relative rounded-xl overflow-hidden" style={{
                                                 background: 'linear-gradient(135deg, hsl(220 20% 18%) 0%, hsl(220 25% 12%) 100%)'
                                             }}>
-                                                {/* Decorative pattern */}
                                                 <div className="absolute top-0 left-0 right-0 flex justify-between px-2 py-1">
                                                     {Array.from({ length: 8 }).map((_, i) => (
                                                         <div key={i} className="w-2 h-1.5 rounded-sm bg-white/8" />
@@ -401,8 +474,8 @@ export default function LandingPage() {
                                         {/* Contributors */}
                                         <motion.div
                                             initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            transition={{ delay: 4.4 }}
+                                            animate={giftOpened ? { opacity: 1 } : { opacity: 0 }}
+                                            transition={{ delay: 0.9 }}
                                             className="px-5 pb-5 text-center"
                                         >
                                             <div className="editorial-line max-w-[60px] mx-auto mb-3" />
@@ -428,7 +501,7 @@ export default function LandingPage() {
                                 initial={{ opacity: 0, scale: 0.5 }}
                                 animate={giftOpened ? { opacity: 1, scale: 1, y: [-4, 4, -4] } : { opacity: 0, scale: 0.5 }}
                                 transition={giftOpened ? { y: { duration: 4, repeat: Infinity, ease: "easeInOut" }, opacity: { duration: 0.4 }, scale: { duration: 0.4 } } : { duration: 0.3 }}
-                                className="absolute -top-3 -right-3 bg-amber-500 text-white px-4 py-2 rounded-full shadow-lg shadow-amber-500/30 text-sm font-semibold z-10 flex items-center gap-1.5"
+                                className="absolute -top-3 right-1 sm:-right-3 bg-amber-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-lg shadow-amber-500/30 text-xs sm:text-sm font-semibold z-10 flex items-center gap-1.5"
                             >
                                 <Gift className="w-3.5 h-3.5" />
                                 Gave
@@ -446,8 +519,8 @@ export default function LandingPage() {
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-3 divide-x divide-border">
                         {[
-                            { value: "100%", label: "Personlig" },
                             { value: "0", label: "Glemte anledninger" },
+                            { value: "2 min", label: "For HR å sette opp" },
                             { value: "\u221e", label: "Varme minner" }
                         ].map((stat, idx) => (
                             <motion.div
@@ -456,12 +529,12 @@ export default function LandingPage() {
                                 whileInView={{ opacity: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: idx * 0.1 }}
-                                className="py-10 text-center"
+                                className="py-6 sm:py-10 text-center"
                             >
-                                <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-1" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-amber-400 mb-1" style={{ fontFamily: 'var(--font-playfair)' }}>
                                     {stat.value}
                                 </div>
-                                <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                                <div className="text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] text-muted-foreground font-medium">
                                     {stat.label}
                                 </div>
                             </motion.div>
@@ -471,9 +544,9 @@ export default function LandingPage() {
             </section>
 
             {/* How It Works */}
-            <section id="how-it-works" className="py-32">
+            <section id="how-it-works" className="py-16 md:py-24 lg:py-32">
                 <div className="max-w-6xl mx-auto px-6">
-                    <div className="text-center mb-20">
+                    <div className="text-center mb-10 md:mb-20">
                         <motion.p
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
@@ -486,7 +559,7 @@ export default function LandingPage() {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="text-4xl lg:text-6xl font-bold tracking-tight"
+                            className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight"
                             style={{ fontFamily: 'var(--font-playfair)' }}
                         >
                             Fire enkle steg
@@ -499,7 +572,7 @@ export default function LandingPage() {
                                 step: "01",
                                 icon: <FileSpreadsheet className="w-6 h-6" />,
                                 title: "Importer teamet",
-                                desc: "Legg til ansatte manuelt eller importer fra Excel. Alle viktige datoer lagres."
+                                desc: "Legg til ansatte manuelt eller importer fra Excel. Alle viktige datoer lagres automatisk."
                             },
                             {
                                 step: "02",
@@ -516,8 +589,8 @@ export default function LandingPage() {
                             {
                                 step: "04",
                                 icon: <Eye className="w-6 h-6" />,
-                                title: "Publiser tribute",
-                                desc: "En vakker, personlig tribute-side genereres automatisk som gave."
+                                title: "Publiser hyllesten",
+                                desc: "En vakker, personlig hyllestside genereres automatisk som gave."
                             }
                         ].map((step, idx) => (
                             <motion.div
@@ -526,7 +599,7 @@ export default function LandingPage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: idx * 0.1, duration: 0.6 }}
-                                className="nord-card rounded-2xl p-8 relative group"
+                                className="nord-card rounded-2xl p-6 sm:p-8 relative group"
                             >
                                 <div className="text-[5rem] font-bold text-border/50 absolute top-4 right-6 leading-none select-none" style={{ fontFamily: 'var(--font-playfair)' }}>
                                     {step.step}
@@ -550,35 +623,31 @@ export default function LandingPage() {
             </section>
 
             {/* CTA */}
-            <section className="py-32">
+            <section className="py-16 md:py-24 lg:py-32">
                 <div className="max-w-5xl mx-auto px-6">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="relative nord-card rounded-3xl p-16 lg:p-24 text-center overflow-hidden"
+                        className="relative nord-card rounded-2xl sm:rounded-3xl px-6 py-12 sm:p-16 lg:p-24 text-center overflow-hidden"
                     >
                         <div className="absolute inset-0 -z-0">
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-amber-500/8 rounded-full blur-[100px]" />
                         </div>
 
                         <div className="relative z-10">
-                            <div className="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center mx-auto mb-8">
-                                <Star className="w-6 h-6 text-amber-400" />
-                            </div>
-
-                            <h2 className="text-4xl lg:text-5xl font-bold mb-6 tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
                                 Klar til å skape{' '}
                                 <span className="text-amber-400 italic">minner</span>?
                             </h2>
-                            <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-                                Start gratis i dag. Opprett din første tribute og la teamet dele varme ord og minner.
+                            <p className="text-muted-foreground text-base sm:text-lg max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
+                                Start gratis i dag. La teamet dele varme ord og minner &mdash; uten at noen blir glemt.
                             </p>
                             <Link
                                 href="/dashboard"
-                                className="group inline-flex items-center gap-3 px-10 py-4 bg-amber-500 text-white font-semibold rounded-2xl hover:bg-amber-400 transition-all hover:shadow-xl hover:shadow-amber-500/20 text-lg"
+                                className="group inline-flex items-center gap-3 px-8 sm:px-10 py-4 bg-amber-500 text-white font-semibold rounded-2xl hover:bg-amber-400 transition-all hover:shadow-xl hover:shadow-amber-500/20 text-base sm:text-lg"
                             >
-                                Lag din første tribute
+                                Lag din første hyllest
                                 <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             </Link>
                         </div>
@@ -595,11 +664,11 @@ export default function LandingPage() {
                                 <Heart className="w-4 h-4 text-background" />
                             </div>
                             <span className="font-semibold tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
-                                Tribute<span className="text-amber-400">Page</span>
+                                Hylles<span className="text-amber-400">t</span>
                             </span>
                         </div>
                         <div className="text-muted-foreground text-sm">
-                            &copy; {new Date().getFullYear()} TributePage. Alle rettigheter reservert.
+                            &copy; {new Date().getFullYear()} Hyllest. Alle rettigheter reservert.
                         </div>
                         <div className="flex gap-6 text-sm font-medium text-muted-foreground">
                             <a href="#" className="hover:text-amber-400 transition-colors">Personvern</a>
