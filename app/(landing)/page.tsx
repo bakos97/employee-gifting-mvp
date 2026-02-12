@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Heart, Users, MessageCircle, Sparkles, ArrowRight, Star, FileSpreadsheet, Share2, Eye } from 'lucide-react';
+import { Heart, Users, MessageCircle, Sparkles, ArrowRight, Star, FileSpreadsheet, Share2, Eye, Cake, Award, HandHeart } from 'lucide-react';
 import { ThemeToggle } from '../components/ThemeToggle';
 
 export default function LandingPage() {
@@ -115,61 +115,130 @@ export default function LandingPage() {
                             </motion.div>
                         </motion.div>
 
-                        {/* Right — Tribute preview */}
+                        {/* Right — Celebration examples */}
                         <motion.div
-                            initial={{ opacity: 0, y: 40, rotateY: -5 }}
-                            animate={{ opacity: 1, y: 0, rotateY: 0 }}
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
                             className="relative hidden lg:block"
                         >
-                            <div className="relative">
-                                <div className="nord-card rounded-3xl overflow-hidden shadow-2xl shadow-black/30">
-                                    <div className="h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600" />
-
-                                    <div className="p-7 border-b border-border">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 bg-amber-500/10 rounded-2xl flex items-center justify-center">
-                                                <Heart className="w-6 h-6 text-amber-400" />
-                                            </div>
-                                            <div>
-                                                <h3 className="font-semibold text-foreground text-lg" style={{ fontFamily: 'var(--font-playfair)' }}>
-                                                    Maria sin 5-års jubileum
+                            <div className="relative space-y-4">
+                                {/* Birthday celebration */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.6, duration: 0.7 }}
+                                    className="nord-card rounded-2xl p-6 relative overflow-hidden"
+                                    style={{ transform: 'rotate(-0.8deg)' }}
+                                >
+                                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-pink-400 via-rose-400 to-pink-300" />
+                                    <div className="flex gap-4">
+                                        <div className="w-11 h-11 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center flex-shrink-0">
+                                            <Cake className="w-5 h-5 text-pink-400" />
+                                        </div>
+                                        <div className="min-w-0">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h3 className="font-semibold text-foreground text-sm" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                                    Oles 30-årsdag
                                                 </h3>
-                                                <p className="text-sm text-muted-foreground">12 bidrag fra teamet</p>
+                                                <span className="text-[10px] uppercase tracking-wider font-semibold text-pink-400 bg-pink-500/10 px-2 py-0.5 rounded-full">Bursdag</span>
+                                            </div>
+                                            <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                                &ldquo;Ole, du fyller rommet med latter og varme. 30 år med deg er bare starten!&rdquo;
+                                            </p>
+                                            <div className="editorial-line mt-3 mb-2" />
+                                            <div className="flex items-center justify-between">
+                                                <p className="text-xs font-medium text-amber-400">&mdash; Lisa, Kari, og 8 andre</p>
+                                                <div className="flex -space-x-1.5">
+                                                    {['bg-amber-400', 'bg-rose-400', 'bg-emerald-400', 'bg-sky-400'].map((bg, i) => (
+                                                        <div key={i} className={`w-5 h-5 rounded-full ${bg} border-2 border-card`} />
+                                                    ))}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                </motion.div>
 
-                                    <div className="p-7 space-y-4">
-                                        {[
-                                            { name: "Ole", msg: "Maria er selve hjertet i teamet. Alltid positiv!" },
-                                            { name: "Lisa", msg: "Takk for at du alltid stiller opp og inspirerer oss." },
-                                            { name: "Erik", msg: "5 fantastiske år! Du gjør hverdagen bedre." }
-                                        ].map((sig, idx) => (
-                                            <motion.div
-                                                key={idx}
-                                                initial={{ opacity: 0, x: -20 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: 1 + idx * 0.12 }}
-                                                className="p-4 rounded-xl bg-surface border border-border"
-                                                style={{ transform: `rotate(${idx % 2 === 0 ? '-0.5deg' : '0.5deg'})` }}
-                                            >
-                                                <p className="text-sm italic text-foreground mb-2" style={{ fontFamily: 'var(--font-playfair)' }}>
-                                                    &ldquo;{sig.msg}&rdquo;
-                                                </p>
-                                                <div className="editorial-line mb-2" />
-                                                <p className="text-xs font-medium text-amber-400 text-right">&mdash; {sig.name}</p>
-                                            </motion.div>
-                                        ))}
+                                {/* Anniversary celebration */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.8, duration: 0.7 }}
+                                    className="nord-card rounded-2xl p-6 relative overflow-hidden ml-6"
+                                    style={{ transform: 'rotate(0.5deg)' }}
+                                >
+                                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-300" />
+                                    <div className="flex gap-4">
+                                        <div className="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0">
+                                            <Award className="w-5 h-5 text-amber-400" />
+                                        </div>
+                                        <div className="min-w-0">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h3 className="font-semibold text-foreground text-sm" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                                    Maria &mdash; 10 år i teamet
+                                                </h3>
+                                                <span className="text-[10px] uppercase tracking-wider font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full">Jubileum</span>
+                                            </div>
+                                            <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                                &ldquo;10 år med Maria er 10 år med inspirasjon. Du har formet kulturen vår.&rdquo;
+                                            </p>
+                                            <div className="editorial-line mt-3 mb-2" />
+                                            <div className="flex items-center justify-between">
+                                                <p className="text-xs font-medium text-amber-400">&mdash; Erik, Jonas, og 14 andre</p>
+                                                <div className="flex -space-x-1.5">
+                                                    {['bg-amber-400', 'bg-violet-400', 'bg-teal-400', 'bg-orange-400', 'bg-sky-400'].map((bg, i) => (
+                                                        <div key={i} className={`w-5 h-5 rounded-full ${bg} border-2 border-card`} />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </motion.div>
 
+                                {/* Farewell celebration */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 1.0, duration: 0.7 }}
+                                    className="nord-card rounded-2xl p-6 relative overflow-hidden -ml-2"
+                                    style={{ transform: 'rotate(-0.3deg)' }}
+                                >
+                                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-sky-400 via-blue-400 to-indigo-300" />
+                                    <div className="flex gap-4">
+                                        <div className="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center flex-shrink-0">
+                                            <HandHeart className="w-5 h-5 text-sky-400" />
+                                        </div>
+                                        <div className="min-w-0">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h3 className="font-semibold text-foreground text-sm" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                                    Farvel til Henrik
+                                                </h3>
+                                                <span className="text-[10px] uppercase tracking-wider font-semibold text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded-full">Avskjed</span>
+                                            </div>
+                                            <p className="text-sm italic text-muted-foreground leading-relaxed" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                                &ldquo;Henrik, du etterlater deg et tomrom ingen kan fylle. Takk for alt du ga oss.&rdquo;
+                                            </p>
+                                            <div className="editorial-line mt-3 mb-2" />
+                                            <div className="flex items-center justify-between">
+                                                <p className="text-xs font-medium text-amber-400">&mdash; Hele teamet, 22 bidrag</p>
+                                                <div className="flex -space-x-1.5">
+                                                    {['bg-sky-400', 'bg-indigo-400', 'bg-amber-400', 'bg-rose-400', 'bg-emerald-400', 'bg-violet-400'].map((bg, i) => (
+                                                        <div key={i} className={`w-5 h-5 rounded-full ${bg} border-2 border-card`} />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+
+                                {/* Floating badge */}
                                 <motion.div
                                     animate={{ y: [-4, 4, -4] }}
                                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                    className="absolute -top-4 -right-4 bg-amber-500 text-white px-4 py-2 rounded-full shadow-lg shadow-amber-500/30 text-sm font-semibold z-10"
+                                    className="absolute -top-3 -right-3 bg-amber-500 text-white px-4 py-2 rounded-full shadow-lg shadow-amber-500/30 text-sm font-semibold z-10 flex items-center gap-1.5"
                                 >
-                                    Publisert!
+                                    <Heart className="w-3.5 h-3.5" />
+                                    44 bidrag
                                 </motion.div>
                             </div>
                         </motion.div>
