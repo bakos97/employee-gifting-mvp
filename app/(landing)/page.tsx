@@ -34,7 +34,7 @@ function ConfettiParticle({ delay, x, y }: { delay: number; x: number; y: number
 
 function GiftBoxAnimation({ onComplete }: { onComplete: () => void }) {
     useEffect(() => {
-        const timer = setTimeout(onComplete, 2200);
+        const timer = setTimeout(onComplete, 1700);
         return () => clearTimeout(timer);
     }, [onComplete]);
 
@@ -336,7 +336,7 @@ export default function LandingPage() {
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={giftOpened ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-                                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                             >
                                 <div className="nord-card rounded-2xl overflow-hidden shadow-2xl shadow-black/20">
                                     {/* Title bar */}
