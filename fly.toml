@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for employee-gifting-mvp on 2026-01-22T02:49:14+01:00
+# fly.toml app configuration file generated for employee-gifting-mvp
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -7,14 +7,6 @@ app = 'employee-gifting-mvp'
 primary_region = 'lhr'
 
 [build]
-
-
-[[mounts]]
-  source = 'data'
-  destination = '/app/data'
-  auto_extend_size_threshold = 80
-  auto_extend_size_increment = '1GB'
-  auto_extend_size_limit = '10GB'
 
 [http_service]
   internal_port = 3000

@@ -2,51 +2,69 @@ export interface Employee {
   id: string;
   name: string;
   email: string;
-  dateOfBirth: string; // ISO Date YYYY-MM-DD
-  startDate: string; // ISO Date YYYY-MM-DD
-  leavingDate?: string; // ISO Date YYYY-MM-DD
-  department?: string;
-  avatarUrl?: string;
+  date_of_birth: string;
+  start_date: string;
+  leaving_date?: string | null;
+  department?: string | null;
+  avatar_url?: string | null;
+  created_at?: string;
+  updated_at?: string;
 }
 
-export interface CelebrationPage {
+export type CelebrationType = 'birthday' | 'anniversary' | 'farewell' | 'custom';
+export type CelebrationStatus = 'draft' | 'collecting' | 'published' | 'archived';
+
+export interface Celebration {
   id: string;
-  employeeId: string;
-  slug: string;
-  templateId: 'classic' | 'modern';
-  status: 'DRAFT' | 'PUBLISHED';
-  content: {
-    heroTitle: string;
-    heroSubtitle: string;
-    heroImage?: string;
-    stats: { label: string; value: string; }[];
-    timeline: { year: string; title: string; description: string; }[];
-    gallery: { src: string; caption: string; }[];
-    messages: { name: string; title: string; text: string; avatar?: string; }[];
-  };
-  createdAt: string;
-  updatedAt: string;
+  employee_id: string;
+  type: CelebrationType;
+  custom_type_label?: string | null;
+  title: string;
+  description?: string | null;
+  event_date?: string | null;
+  status: CelebrationStatus;
+  share_token: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
-export type EventType = 'BIRTHDAY' | 'ANNIVERSARY' | 'LEAVING' | 'CHRISTMAS';
-
-export interface GiftEvent {
+export interface Question {
   id: string;
-  employeeId: string;
-  type: EventType;
-  date: string; // The date of the event for the current year
-  status: 'UPCOMING' | 'PENDING_ACTION' | 'COMPLETED';
-  pageId?: string; // Replaces selectedGiftId/cardId
+  celebration_id: string;
+  text: string;
+  sort_order: number;
+  allow_image: boolean;
+  is_required: boolean;
+  created_at?: string;
 }
 
-export interface EventState {
-  id: string; // The event ID (e.g. evt_bd_emp1_2026)
-  pageId?: string;
-  status: 'UPCOMING' | 'PENDING_ACTION' | 'COMPLETED';
+export interface Response {
+  id: string;
+  question_id: string;
+  celebration_id: string;
+  contributor_name: string;
+  contributor_email?: string | null;
+  text_response?: string | null;
+  image_url?: string | null;
+  created_at?: string;
 }
 
-export interface AppData {
-  employees: Employee[];
-  pages: CelebrationPage[];
-  eventStates: Record<string, EventState>;
+export interface CelebrationWithDetails extends Celebration {
+  employee: Employee;
+  questions: Question[];
+  response_count: number;
+  contributor_count: number;
+}
+
+export interface TributePageData {
+  celebration: Celebration;
+  employee: Employee;
+  questions: (Question & { responses: Response[] })[];
+  contributors: string[];
+}
+
+export interface ImportResult {
+  success: number;
+  skipped: number;
+  errors: string[];
 }

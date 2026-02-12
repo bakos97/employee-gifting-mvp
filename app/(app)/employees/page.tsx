@@ -1,31 +1,33 @@
 import { EmployeeList } from '@/app/components/EmployeeList';
-import { getAppData } from '@/app/lib/db';
+import { ExcelImportUploader } from '@/app/components/ExcelImportUploader';
+import { getEmployees } from '@/app/lib/db/employees';
 import { Users } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 export default async function EmployeesPage() {
-    const data = await getAppData();
+    const employees = await getEmployees();
 
     return (
-        <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8 animate-in fade-in duration-500">
+        <div className="max-w-6xl space-y-10">
             {/* Header */}
-            <div className="flex items-center gap-3 text-3xl font-bold text-gray-800">
-                <div className="p-3 bg-blue-100 rounded-xl text-blue-600 shadow-sm">
-                    <Users className="w-8 h-8" />
-                </div>
-                <h1>Team Management</h1>
+            <div className="space-y-2">
+                <p className="text-xs uppercase tracking-[0.2em] text-amber-400 font-semibold">Administrasjon</p>
+                <h1 className="text-4xl font-bold tracking-tight text-foreground" style={{ fontFamily: 'var(--font-playfair)' }}>
+                    Ansatte
+                </h1>
+                <p className="text-muted-foreground max-w-2xl">
+                    Administrer teammedlemmene dine. Legg til ansatte manuelt eller importer fra Excel.
+                </p>
             </div>
 
+            <div className="editorial-line" />
+
+            {/* Excel Import */}
+            <ExcelImportUploader />
+
             {/* List */}
-            <div className="space-y-4">
-                <p className="text-gray-500 max-w-2xl">
-                    Manage your team members here. Adding a new employee will automatically calculate their upcoming birthdays and work anniversaries.
-                </p>
-                <div className="glass-card rounded-2xl border border-white/60 p-1 shadow-xl">
-                    <EmployeeList employees={data.employees} />
-                </div>
-            </div>
+            <EmployeeList employees={employees} />
         </div>
     );
 }

@@ -5,7 +5,6 @@ import { Plus, MoreVertical, Mail, ChevronUp } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useState } from 'react';
 import { AddEmployeeForm } from './AddEmployeeForm';
-
 import { EditEmployeeModal } from './EditEmployeeModal';
 
 interface EmployeeListProps {
@@ -21,20 +20,22 @@ export function EmployeeList({ employees }: EmployeeListProps) {
 
             {/* Header / Actions */}
             <div className="flex items-center justify-between">
-                <h3 className="font-bold text-gray-800 text-xl">All Employees ({employees.length})</h3>
+                <h3 className="text-muted-foreground text-sm font-medium">
+                    Alle ansatte <span className="text-foreground font-semibold">({employees.length})</span>
+                </h3>
                 <button
                     onClick={() => setShowAddForm(!showAddForm)}
                     className={cn(
-                        "text-sm font-bold px-5 py-2.5 rounded-xl transition-all shadow-sm hover:shadow-md flex items-center gap-2",
+                        "text-sm font-semibold px-5 py-2.5 rounded-xl transition-all flex items-center gap-2",
                         showAddForm
-                            ? "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                            : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:opacity-90"
+                            ? "bg-surface text-muted-foreground hover:text-foreground border border-border"
+                            : "bg-amber-500 text-white hover:bg-amber-400"
                     )}
                 >
                     {showAddForm ? (
-                        <>Close Form <ChevronUp className="w-4 h-4" /></>
+                        <>Lukk <ChevronUp className="w-4 h-4" /></>
                     ) : (
-                        <>Add Member <Plus className="w-4 h-4" /></>
+                        <>Legg til <Plus className="w-4 h-4" /></>
                     )}
                 </button>
             </div>
@@ -47,33 +48,36 @@ export function EmployeeList({ employees }: EmployeeListProps) {
             )}
 
             {/* List */}
-            <div className="glass-card rounded-2xl border border-white/60 overflow-hidden shadow-xl">
-                <div className="p-4 border-b border-gray-100 bg-white/50 backdrop-blur-sm">
-                    {/* Optional: Filter/Search could go here later */}
-                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Team Roster</div>
+            <div className="nord-card rounded-2xl overflow-hidden">
+                <div className="px-5 py-3.5 border-b border-border">
+                    <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-[0.2em]">
+                        Team Roster
+                    </div>
                 </div>
 
-                <div className="divide-y divide-gray-100 bg-white/60">
+                <div className="divide-y divide-border">
                     {employees.length === 0 ? (
-                        <div className="p-12 text-center flex flex-col items-center justify-center gap-4">
-                            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center">
-                                <Plus className="w-8 h-8 text-gray-300" />
+                        <div className="p-16 text-center flex flex-col items-center justify-center gap-4">
+                            <div className="w-14 h-14 bg-surface rounded-2xl flex items-center justify-center border border-border">
+                                <Plus className="w-6 h-6 text-muted-foreground" />
                             </div>
                             <div>
-                                <h4 className="font-bold text-gray-800">No team members yet</h4>
-                                <p className="text-sm text-gray-500">Get started by adding your first employee above.</p>
+                                <h4 className="font-semibold text-foreground" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                    Ingen teammedlemmer ennå
+                                </h4>
+                                <p className="text-sm text-muted-foreground mt-1">Kom i gang ved å legge til din første ansatt.</p>
                             </div>
                         </div>
                     ) : (
                         employees.map((emp) => (
-                            <div key={emp.id} className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors group">
+                            <div key={emp.id} className="px-5 py-4 flex items-center justify-between hover:bg-surface/50 transition-colors group">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-lg shadow-sm">
+                                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/15 flex items-center justify-center text-amber-400 font-semibold text-sm">
                                         {emp.name.charAt(0)}
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-gray-800 group-hover:text-primary transition-colors">{emp.name}</h4>
-                                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                                        <h4 className="font-medium text-foreground group-hover:text-amber-400 transition-colors">{emp.name}</h4>
+                                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                                             <Mail className="w-3 h-3" />
                                             {emp.email}
                                         </div>
@@ -81,13 +85,15 @@ export function EmployeeList({ employees }: EmployeeListProps) {
                                 </div>
                                 <div className="flex items-center gap-6">
                                     <div className="hidden md:block text-right">
-                                        <div className="text-xs font-bold text-gray-700">{emp.department}</div>
-                                        <div className="text-[10px] uppercase tracking-wide text-gray-400">Started: {emp.startDate}</div>
+                                        <div className="text-xs font-medium text-foreground">{emp.department}</div>
+                                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                                            Startet: {emp.start_date}
+                                        </div>
                                     </div>
                                     <button
                                         onClick={() => setEditingEmployee(emp)}
-                                        className="text-gray-400 hover:text-primary p-2 rounded-lg hover:bg-white hover:shadow-sm transition-all opacity-0 group-hover:opacity-100"
-                                        title="Edit Employee"
+                                        className="text-muted-foreground hover:text-amber-400 p-2 rounded-lg hover:bg-amber-500/10 transition-all opacity-0 group-hover:opacity-100"
+                                        title="Rediger ansatt"
                                     >
                                         <MoreVertical className="w-4 h-4" />
                                     </button>

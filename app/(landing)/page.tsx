@@ -2,58 +2,48 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Gift, Calendar, MessageCircle, Heart, CheckCircle, Sparkles, Zap, Package } from 'lucide-react';
-
-const ActionButton = ({ href, children, variant = 'primary' }: { href: string; children: React.ReactNode; variant?: 'primary' | 'secondary' }) => (
-    <Link
-        href={href}
-        className={`inline-flex items-center px-8 py-4 rounded-2xl font-bold text-base transition-all transform hover:scale-105 hover:-translate-y-1 ${variant === 'primary'
-            ? 'bg-primary text-primary-foreground shadow-xl hover:shadow-2xl hover:shadow-primary/30'
-            : 'bg-card text-foreground border border-border hover:border-primary hover:bg-muted shadow-md hover:shadow-lg'
-            }`}
-    >
-        {children}
-    </Link>
-);
+import { Heart, Users, MessageCircle, Sparkles, ArrowRight, Star, FileSpreadsheet, Share2, Eye } from 'lucide-react';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export default function LandingPage() {
-    const fadeIn = {
-        initial: { opacity: 0, y: 20 },
+    const fadeUp = {
+        initial: { opacity: 0, y: 30 },
         animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }
+        transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
     };
 
-    const staggerChildren = {
+    const stagger = {
         animate: {
             transition: {
-                staggerChildren: 0.1
+                staggerChildren: 0.12
             }
         }
     };
 
     return (
-        <div className="bg-background overflow-hidden min-h-screen">
-            {/* Refined Navbar */}
+        <div className="bg-background text-foreground overflow-hidden">
+            {/* Navigation */}
             <motion.nav
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="fixed top-0 w-full z-50 px-6 py-3 bg-background/95 backdrop-blur-md border-b border-border"
+                initial={{ y: -60, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="fixed top-0 w-full z-50 px-6 py-4 bg-background/80 backdrop-blur-xl border-b border-border/50"
             >
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                        <div className="p-2 bg-primary rounded-xl shadow-md">
-                            <Gift className="w-5 h-5 text-primary-foreground" />
+                    <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 bg-gradient-to-br from-amber-400 to-amber-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <Heart className="w-4.5 h-4.5 text-background" />
                         </div>
-                        <span className="text-xl font-black tracking-tight text-foreground font-serif">
-                            Gift<span className="text-primary">ly</span>
+                        <span className="text-xl font-semibold tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
+                            Tribute<span className="text-amber-400">Page</span>
                         </span>
                     </div>
-                    <div className="flex items-center gap-3">
-                        <Link href="/dashboard" className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors hidden sm:block">
+                    <div className="flex items-center gap-4">
+                        <ThemeToggle />
+                        <Link href="/dashboard" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:block">
                             Logg inn
                         </Link>
-                        <Link href="/dashboard" className="px-4 sm:px-5 py-2 bg-primary text-primary-foreground text-sm font-bold rounded-xl hover:shadow-lg transition-all">
+                        <Link href="/dashboard" className="px-5 py-2 bg-amber-500 text-white text-sm font-semibold rounded-xl hover:bg-amber-400 transition-all hover:shadow-lg hover:shadow-amber-500/20">
                             Kom i gang
                         </Link>
                     </div>
@@ -61,199 +51,154 @@ export default function LandingPage() {
             </motion.nav>
 
             {/* Hero Section */}
-            <section className="relative pt-28 pb-20 lg:pt-36 lg:pb-28 overflow-hidden">
+            <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+                {/* Background elements */}
                 <div className="absolute inset-0 -z-10">
-                    <div className="absolute top-20 right-10 w-[500px] h-[500px] bg-secondary/30 rounded-full blur-3xl"></div>
-                    <div className="absolute bottom-20 left-10 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl"></div>
+                    <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[120px]" />
+                    <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-amber-600/3 rounded-full blur-[100px]" />
+                    <div className="absolute inset-0 opacity-[0.03]" style={{
+                        backgroundImage: 'linear-gradient(hsl(38 92% 58% / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(38 92% 58% / 0.3) 1px, transparent 1px)',
+                        backgroundSize: '80px 80px'
+                    }} />
                 </div>
 
-                <div className="max-w-7xl mx-auto px-4">
-                    <div className="grid lg:grid-cols-[1.2fr_1fr] gap-16 items-center">
-                        {/* Left: Message */}
+                <div className="max-w-7xl mx-auto px-6 w-full">
+                    <div className="grid lg:grid-cols-[1.3fr_1fr] gap-20 items-center">
+                        {/* Left — Editorial text */}
                         <motion.div
                             initial="initial"
                             animate="animate"
-                            variants={staggerChildren}
-                            className="space-y-8"
+                            variants={stagger}
+                            className="space-y-10"
                         >
-                            <motion.div variants={fadeIn}>
-                                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-secondary-foreground text-sm font-semibold border border-secondary/50">
-                                    <Sparkles className="w-4 h-4" />
-                                    Enkelt · Personlig · Effektivt
+                            <motion.div variants={fadeUp}>
+                                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold tracking-wider uppercase border border-amber-500/20">
+                                    <Sparkles className="w-3.5 h-3.5" />
+                                    Personlige tribute-sider
                                 </span>
                             </motion.div>
 
-                            <motion.h1 variants={fadeIn} className="text-4xl md:text-5xl lg:text-7xl font-black font-serif tracking-tight text-foreground leading-[1.1]">
-                                La alle føle seg{' '}
-                                <span className="relative inline-block text-primary">
-                                    sett
+                            <motion.h1 variants={fadeUp} className="text-5xl md:text-6xl lg:text-[5.5rem] font-bold leading-[0.95] tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                Skap minner{' '}
+                                <br className="hidden md:block" />
+                                som{' '}
+                                <span className="relative inline-block">
+                                    <span className="text-amber-400 italic">varmer</span>
+                                    <motion.span
+                                        initial={{ scaleX: 0 }}
+                                        animate={{ scaleX: 1 }}
+                                        transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                                        className="absolute -bottom-2 left-0 right-0 h-[2px] bg-gradient-to-r from-amber-400 to-transparent origin-left"
+                                    />
                                 </span>
                             </motion.h1>
 
-                            <motion.p variants={fadeIn} className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-lg">
-                                Aldri glem en bursdag, jubileum eller avskjed igjen. Vi håndterer alt – fra varsling til levering.
+                            <motion.p variants={fadeUp} className="text-lg text-muted-foreground leading-relaxed max-w-lg" style={{ fontFamily: 'var(--font-sora)' }}>
+                                Samle hilsener, minner og bilder fra hele teamet.
+                                Skap en vakker tribute-side som gir kollegaen din en gave de aldri glemmer.
                             </motion.p>
 
-                            <motion.div variants={fadeIn} className="flex flex-wrap gap-4 pt-4">
-                                <ActionButton href="/dashboard">
-                                    Kom i gang gratis <Heart className="ml-2 w-4 h-4" />
-                                </ActionButton>
-                                <ActionButton href="#how-it-works" variant="secondary">
+                            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 pt-2">
+                                <Link
+                                    href="/dashboard"
+                                    className="group inline-flex items-center gap-3 px-8 py-4 bg-amber-500 text-white font-semibold rounded-2xl hover:bg-amber-400 transition-all hover:shadow-xl hover:shadow-amber-500/20 transform hover:-translate-y-0.5"
+                                >
+                                    Kom i gang gratis
+                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                                <Link
+                                    href="#how-it-works"
+                                    className="inline-flex items-center gap-3 px-8 py-4 border border-border text-muted-foreground font-semibold rounded-2xl hover:border-amber-500/30 hover:text-foreground transition-all"
+                                >
                                     Se hvordan
-                                </ActionButton>
-                            </motion.div>
-
-                            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 sm:gap-8 pt-8 border-t border-border">
-                                {[
-                                    { icon: <Heart className="w-5 h-5 text-primary" />, text: "Personlige hilsener" },
-                                    { icon: <CheckCircle className="w-5 h-5 text-primary" />, text: "Aldri glem noen" },
-                                    { icon: <Zap className="w-5 h-5 text-secondary-foreground" />, text: "Spar tid" }
-                                ].map((item, idx) => (
-                                    <div key={idx} className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                                        {item.icon}
-                                        <span>{item.text}</span>
-                                    </div>
-                                ))}
+                                </Link>
                             </motion.div>
                         </motion.div>
 
-                        {/* Right: The Solution - Digital Page Preview */}
+                        {/* Right — Tribute preview */}
                         <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8 }}
+                            initial={{ opacity: 0, y: 40, rotateY: -5 }}
+                            animate={{ opacity: 1, y: 0, rotateY: 0 }}
+                            transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
                             className="relative hidden lg:block"
                         >
-                            {/* Browser Mockup */}
-                            <div className="relative z-10 bg-card rounded-xl shadow-2xl border border-border overflow-hidden max-w-lg mx-auto transform rotate-1 hover:rotate-0 transition-transform duration-500">
-                                {/* Browser Toolbar */}
-                                <div className="h-8 bg-muted border-b border-border flex items-center px-4 gap-2">
-                                    <div className="flex gap-1.5">
-                                        <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]"></div>
-                                        <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]"></div>
-                                        <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]"></div>
-                                    </div>
-                                    <div className="flex-1 text-center">
-                                        <div className="bg-background text-[10px] text-muted-foreground px-3 py-0.5 rounded-md inline-block font-mono border border-border">
-                                            giftly.com/p/maria-anniversary
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="relative">
+                                <div className="nord-card rounded-3xl overflow-hidden shadow-2xl shadow-black/30">
+                                    <div className="h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600" />
 
-                                {/* Page Content Preview */}
-                                <div className="h-[400px] bg-[#FDFBF7] overflow-hidden relative">
-                                    {/* Hero Preview */}
-                                    <div className="text-center pt-10 px-8 relative z-10">
-                                        <div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 border-4 border-white shadow-lg overflow-hidden">
-                                            <div className="w-full h-full bg-primary/20 flex items-center justify-center text-3xl">👩</div>
-                                        </div>
-                                        <div className="inline-block bg-primary text-primary-foreground text-[10px] font-bold px-3 py-1 rounded-full mb-3">
-                                            Let's Celebrate!
-                                        </div>
-                                        <h3 className="text-2xl font-serif font-black text-primary mb-2">Celebrating Maria</h3>
-                                        <p className="text-xs text-muted-foreground mb-6">Honoring 5 years of excellence</p>
-
-                                        {/* Timeline Snippet */}
-                                        <div className="text-left border-l-2 border-primary/20 pl-4 space-y-4 max-w-xs mx-auto">
-                                            <div className="relative">
-                                                <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 bg-primary rounded-full border-2 border-white"></div>
-                                                <div className="text-[10px] font-bold text-primary">2021</div>
-                                                <div className="text-sm font-bold text-foreground">Joined the team</div>
+                                    <div className="p-7 border-b border-border">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 bg-amber-500/10 rounded-2xl flex items-center justify-center">
+                                                <Heart className="w-6 h-6 text-amber-400" />
                                             </div>
-                                            <div className="relative">
-                                                <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 bg-primary rounded-full border-2 border-white"></div>
-                                                <div className="text-[10px] font-bold text-primary">2023</div>
-                                                <div className="text-sm font-bold text-foreground">Senior Developer</div>
+                                            <div>
+                                                <h3 className="font-semibold text-foreground text-lg" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                                    Maria sin 5-års jubileum
+                                                </h3>
+                                                <p className="text-sm text-muted-foreground">12 bidrag fra teamet</p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Decorative Confetti */}
-                                    <div className="absolute top-10 left-10 text-xl opacity-50">🎉</div>
-                                    <div className="absolute bottom-20 right-10 text-xl opacity-50">🎈</div>
-                                    <div className="absolute top-1/2 left-4 text-xl opacity-50">✨</div>
+                                    <div className="p-7 space-y-4">
+                                        {[
+                                            { name: "Ole", msg: "Maria er selve hjertet i teamet. Alltid positiv!" },
+                                            { name: "Lisa", msg: "Takk for at du alltid stiller opp og inspirerer oss." },
+                                            { name: "Erik", msg: "5 fantastiske år! Du gjør hverdagen bedre." }
+                                        ].map((sig, idx) => (
+                                            <motion.div
+                                                key={idx}
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 1 + idx * 0.12 }}
+                                                className="p-4 rounded-xl bg-surface border border-border"
+                                                style={{ transform: `rotate(${idx % 2 === 0 ? '-0.5deg' : '0.5deg'})` }}
+                                            >
+                                                <p className="text-sm italic text-foreground mb-2" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                                    &ldquo;{sig.msg}&rdquo;
+                                                </p>
+                                                <div className="editorial-line mb-2" />
+                                                <p className="text-xs font-medium text-amber-400 text-right">&mdash; {sig.name}</p>
+                                            </motion.div>
+                                        ))}
+                                    </div>
                                 </div>
+
+                                <motion.div
+                                    animate={{ y: [-4, 4, -4] }}
+                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                    className="absolute -top-4 -right-4 bg-amber-500 text-white px-4 py-2 rounded-full shadow-lg shadow-amber-500/30 text-sm font-semibold z-10"
+                                >
+                                    Publisert!
+                                </motion.div>
                             </div>
-
-                            {/* Floating "Live" Badge */}
-                            <motion.div
-                                animate={{ y: [5, -5, 5] }}
-                                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute -bottom-6 -right-4 bg-white p-4 rounded-xl shadow-xl border border-border z-20 flex items-center gap-3"
-                            >
-                                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-                                    <CheckCircle className="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <div className="text-xs text-muted-foreground font-bold uppercase">Status</div>
-                                    <div className="font-bold text-foreground">Live Page</div>
-                                </div>
-                            </motion.div>
                         </motion.div>
                     </div>
                 </div>
             </section>
 
-            {/* Template Showcase */}
-            <section className="py-24 bg-card border-y border-border">
-                <div className="max-w-7xl mx-auto px-4">
-                    <div className="text-center mb-16">
-                        <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Premium Templates</span>
-                        <h2 className="text-3xl lg:text-5xl font-black font-serif text-foreground mb-4">
-                            Designet for å feire
-                        </h2>
-                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                            Velg blant våre profesjonelt designede maler for å skape den perfekte hyllesten.
-                        </p>
-                    </div>
-
-                    <div className="grid md:grid-cols-3 gap-8">
+            {/* Metrics strip */}
+            <section className="border-y border-border bg-surface/50">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="grid grid-cols-3 divide-x divide-border">
                         {[
-                            {
-                                title: "The Classic",
-                                price: "Inkludert",
-                                img: "🌿",
-                                desc: "Tidløs, elegant og perfekt for jubileer. Fokus på tidslinje og minner.",
-                                tag: "Mest Populær"
-                            },
-                            {
-                                title: "Vibrant & Bold",
-                                price: "Kommer snart",
-                                img: "🎨",
-                                desc: "Høy energi, sterke farger og konfetti. Perfekt for bursdager.",
-                                tag: "Nyhet"
-                            },
-                            {
-                                title: "Minimalist",
-                                price: "Kommer snart",
-                                img: "✨",
-                                desc: "Ren, enkel og fokusert på budskapet. Passer for alle anledninger.",
-                                tag: "Kommer"
-                            }
-                        ].map((gift, idx) => (
+                            { value: "100%", label: "Personlig" },
+                            { value: "0", label: "Glemte anledninger" },
+                            { value: "\u221e", label: "Varme minner" }
+                        ].map((stat, idx) => (
                             <motion.div
                                 key={idx}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: idx * 0.1 }}
-                                className="group relative bg-background rounded-3xl p-6 border border-border hover:border-primary/50 transition-all hover:shadow-2xl hover:shadow-primary/5"
+                                className="py-10 text-center"
                             >
-                                <div className="absolute top-6 right-6 px-3 py-1 bg-secondary text-secondary-foreground text-xs font-bold rounded-full">
-                                    {gift.tag}
+                                <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-1" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                    {stat.value}
                                 </div>
-                                <div className="h-48 rounded-2xl bg-muted/30 flex items-center justify-center text-6xl mb-6 group-hover:scale-105 transition-transform duration-500">
-                                    {gift.img}
-                                </div>
-                                <h3 className="text-xl font-bold font-serif text-foreground mb-1">{gift.title}</h3>
-                                <div className="flex justify-between items-center mb-3">
-                                    <p className="text-sm text-muted-foreground">{gift.desc}</p>
-                                </div>
-                                <div className="flex items-center justify-between pt-4 border-t border-border">
-                                    <span className="font-bold text-primary">{gift.price}</span>
-                                    <Link href="/p/template-demo" className="text-sm font-semibold text-foreground hover:text-primary transition-colors">
-                                        Se eksempel →
-                                    </Link>
+                                <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                                    {stat.label}
                                 </div>
                             </motion.div>
                         ))}
@@ -261,133 +206,79 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* ROI Comparison */}
-            <section className="py-24 bg-background">
-                <div className="max-w-7xl mx-auto px-4">
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
-                        <div className="space-y-8">
-                            <h2 className="text-3xl lg:text-5xl font-black font-serif text-foreground">
-                                Hvorfor velge Giftly?
-                            </h2>
-                            <p className="text-lg text-muted-foreground">
-                                Vi erstatter logistikkutfordringer med meningsfulle digitale opplevelser.
-                            </p>
-
-                            <div className="space-y-6">
-                                {[
-                                    { label: "Varig digitalt minne", val: "∞", icon: "💎" },
-                                    { label: "Spart admin-tid", val: "100%", icon: "⚡" },
-                                    { label: "Bærekraftig", val: "100%", icon: "🌱" }
-                                ].map((stat, idx) => (
-                                    <div key={idx} className="flex items-center gap-4 p-4 rounded-2xl bg-card border border-border shadow-sm">
-                                        <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-2xl">
-                                            {stat.icon}
-                                        </div>
-                                        <div>
-                                            <div className="text-2xl font-black text-primary">{stat.val}</div>
-                                            <div className="text-sm font-semibold text-muted-foreground">{stat.label}</div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="relative">
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl opacity-50"></div>
-                            <div className="relative bg-card rounded-3xl p-8 border border-border shadow-2xl">
-                                <h3 className="font-bold text-lg mb-6 text-center">Fysiske gaver vs. Digitale Feiringer</h3>
-                                <div className="grid grid-cols-2 gap-8">
-                                    <div className="space-y-4">
-                                        <div className="text-center text-sm font-semibold text-red-500 mb-2">Den gamle måten</div>
-                                        <ul className="space-y-3 text-sm text-muted-foreground">
-                                            <li className="flex gap-2">❌ Kort som kastes i skuffen</li>
-                                            <li className="flex gap-2">❌ Produkter som støver ned</li>
-                                            <li className="flex gap-2">❌ Dyre fraktkostnader</li>
-                                        </ul>
-                                    </div>
-                                    <div className="space-y-4 border-l border-border pl-8">
-                                        <div className="text-center text-sm font-semibold text-primary mb-2">Giftly måten</div>
-                                        <ul className="space-y-3 text-sm text-foreground font-medium">
-                                            <li className="flex gap-2">✅ En personlig nettside</li>
-                                            <li className="flex gap-2">✅ Tidslinje over karrieren</li>
-                                            <li className="flex gap-2">✅ Hilsener fra hele teamet</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Social Proof */}
-            <section className="py-20 bg-muted/30 border-y border-border">
-                <div className="max-w-4xl mx-auto px-4 text-center">
-                    <div className="flex justify-center mb-8 gap-1">
-                        {[1, 2, 3, 4, 5].map(i => <span key={i} className="text-yellow-400 text-2xl">★</span>)}
-                    </div>
-                    <blockquote className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-8 leading-relaxed">
-                        "Vi gikk fra stressende gaveinnkjøp til meningsfulle digitale feiringer. De ansatte elsker å kunne se tilbake på tidslinjen sin."
-                    </blockquote>
-                    <div className="flex items-center justify-center gap-4">
-                        <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">KS</div>
-                        <div className="text-left">
-                            <div className="font-bold text-foreground">Kari Solberg</div>
-                            <div className="text-sm text-muted-foreground">HR Director, TechNordic AS</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             {/* How It Works */}
-            <section id="how-it-works" className="py-24 bg-background">
-                <div className="max-w-6xl mx-auto px-4">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl lg:text-5xl font-black font-serif text-foreground mb-4">
-                            Så enkelt fungerer det
-                        </h2>
-                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                            Tre enkle steg til en minnerik feiring
-                        </p>
+            <section id="how-it-works" className="py-32">
+                <div className="max-w-6xl mx-auto px-6">
+                    <div className="text-center mb-20">
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            className="text-xs uppercase tracking-[0.3em] text-amber-400 font-semibold mb-4"
+                        >
+                            Prosessen
+                        </motion.p>
+                        <motion.h2
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="text-4xl lg:text-6xl font-bold tracking-tight"
+                            style={{ fontFamily: 'var(--font-playfair)' }}
+                        >
+                            Fire enkle steg
+                        </motion.h2>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[
                             {
-                                step: "1",
-                                icon: <Calendar className="w-8 h-8" />,
-                                title: "Automatiske varsler",
-                                desc: "Vi sier ifra når en jubilant nærmer seg en milepæl. Du trenger ikke huske datoen.",
-                                color: "bg-primary text-primary-foreground"
+                                step: "01",
+                                icon: <FileSpreadsheet className="w-6 h-6" />,
+                                title: "Importer teamet",
+                                desc: "Legg til ansatte manuelt eller importer fra Excel. Alle viktige datoer lagres."
                             },
                             {
-                                step: "2",
-                                icon: <MessageCircle className="w-8 h-8" />,
-                                title: "Inviter teamet",
-                                desc: "Kollegaer får en lenke for å legge igjen hilsener, bilder og minner i en felles portal.",
-                                color: "bg-secondary text-secondary-foreground"
+                                step: "02",
+                                icon: <Sparkles className="w-6 h-6" />,
+                                title: "Opprett feiring",
+                                desc: "Velg anledning og tilpass spørsmålene kollegaer skal svare på."
                             },
                             {
-                                step: "3",
-                                icon: <Sparkles className="w-8 h-8" />,
-                                title: "Publiser siden",
-                                desc: "På dagen sendes en vakker, interaktiv feirings-side til jubilanten.",
-                                color: "bg-primary text-primary-foreground"
+                                step: "03",
+                                icon: <Share2 className="w-6 h-6" />,
+                                title: "Del lenken",
+                                desc: "Kollegaer svarer på spørsmål og laster opp bilder via en enkel lenke."
+                            },
+                            {
+                                step: "04",
+                                icon: <Eye className="w-6 h-6" />,
+                                title: "Publiser tribute",
+                                desc: "En vakker, personlig tribute-side genereres automatisk som gave."
                             }
                         ].map((step, idx) => (
                             <motion.div
                                 key={idx}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: idx * 0.15 }}
-                                className="relative p-8 rounded-3xl bg-card border border-border shadow-md hover:shadow-lg transition-all"
+                                transition={{ delay: idx * 0.1, duration: 0.6 }}
+                                className="nord-card rounded-2xl p-8 relative group"
                             >
-                                <div className={`w-16 h-16 ${step.color} rounded-2xl flex items-center justify-center mb-6 shadow-lg`}>
-                                    {step.icon}
+                                <div className="text-[5rem] font-bold text-border/50 absolute top-4 right-6 leading-none select-none" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                    {step.step}
                                 </div>
 
-                                <h3 className="text-xl font-bold text-foreground mb-3">{step.title}</h3>
-                                <p className="text-muted-foreground leading-relaxed">{step.desc}</p>
+                                <div className="relative z-10">
+                                    <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-6">
+                                        {step.icon}
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-foreground mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                        {step.title}
+                                    </h3>
+                                    <p className="text-sm text-muted-foreground leading-relaxed">
+                                        {step.desc}
+                                    </p>
+                                </div>
                             </motion.div>
                         ))}
                     </div>
@@ -395,54 +286,61 @@ export default function LandingPage() {
             </section>
 
             {/* CTA */}
-            <section className="py-24">
-                <div className="max-w-5xl mx-auto px-4">
-                    <div className="relative bg-primary rounded-[2.5rem] p-12 lg:p-24 text-center text-primary-foreground overflow-hidden shadow-2xl">
-                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
+            <section className="py-32">
+                <div className="max-w-5xl mx-auto px-6">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="relative nord-card rounded-3xl p-16 lg:p-24 text-center overflow-hidden"
+                    >
+                        <div className="absolute inset-0 -z-0">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-amber-500/8 rounded-full blur-[100px]" />
+                        </div>
 
                         <div className="relative z-10">
-                            <div className="inline-block mb-6">
-                                <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto">
-                                    <Sparkles className="w-8 h-8 text-primary-foreground" />
-                                </div>
+                            <div className="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center mx-auto mb-8">
+                                <Star className="w-6 h-6 text-amber-400" />
                             </div>
 
-                            <h2 className="text-4xl lg:text-5xl font-black font-serif mb-6">
-                                Klar til å spre glede?
+                            <h2 className="text-4xl lg:text-5xl font-bold mb-6 tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                Klar til å skape{' '}
+                                <span className="text-amber-400 italic">minner</span>?
                             </h2>
-                            <p className="text-primary-foreground/90 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                                Start gratis i dag. Ingen kredittkort nødvendig.
+                            <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+                                Start gratis i dag. Opprett din første tribute og la teamet dele varme ord og minner.
                             </p>
                             <Link
                                 href="/dashboard"
-                                className="inline-flex items-center px-10 py-4 bg-white text-primary rounded-2xl font-black text-lg hover:bg-white/90 transition-all shadow-xl hover:scale-105"
+                                className="group inline-flex items-center gap-3 px-10 py-4 bg-amber-500 text-white font-semibold rounded-2xl hover:bg-amber-400 transition-all hover:shadow-xl hover:shadow-amber-500/20 text-lg"
                             >
-                                Lag din første side <Sparkles className="ml-2 w-5 h-5" />
+                                Lag din første tribute
+                                <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             </Link>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
             {/* Footer */}
-            <footer className="py-12 bg-card border-t border-border">
-                <div className="max-w-7xl mx-auto px-4">
+            <footer className="border-t border-border">
+                <div className="max-w-7xl mx-auto px-6 py-10">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-                        <div className="flex items-center gap-2.5">
-                            <div className="p-2 bg-primary rounded-xl shadow-md">
-                                <Gift className="w-5 h-5 text-primary-foreground" />
+                        <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg flex items-center justify-center">
+                                <Heart className="w-4 h-4 text-background" />
                             </div>
-                            <span className="text-xl font-black text-foreground font-serif">
-                                Gift<span className="text-primary">ly</span>
+                            <span className="font-semibold tracking-tight" style={{ fontFamily: 'var(--font-playfair)' }}>
+                                Tribute<span className="text-amber-400">Page</span>
                             </span>
                         </div>
                         <div className="text-muted-foreground text-sm">
-                            &copy; {new Date().getFullYear()} Giftly. Alle rettigheter reservert.
+                            &copy; {new Date().getFullYear()} TributePage. Alle rettigheter reservert.
                         </div>
-                        <div className="flex gap-6 text-sm font-semibold text-muted-foreground">
-                            <a href="#" className="hover:text-primary transition-colors">Personvern</a>
-                            <a href="#" className="hover:text-primary transition-colors">Vilkår</a>
-                            <a href="#" className="hover:text-primary transition-colors">Kontakt</a>
+                        <div className="flex gap-6 text-sm font-medium text-muted-foreground">
+                            <a href="#" className="hover:text-amber-400 transition-colors">Personvern</a>
+                            <a href="#" className="hover:text-amber-400 transition-colors">Vilkår</a>
+                            <a href="#" className="hover:text-amber-400 transition-colors">Kontakt</a>
                         </div>
                     </div>
                 </div>

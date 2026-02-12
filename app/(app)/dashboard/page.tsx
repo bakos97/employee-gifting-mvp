@@ -1,98 +1,98 @@
-import { getAppData } from '@/app/lib/db';
-import { calculateUpcomingEvents } from '@/app/lib/events';
-import { EventTimeline } from '@/app/components/EventTimeline';
-import { EmployeeList } from '@/app/components/EmployeeList';
-import { StatsGrid } from '@/app/components/StatsGrid';
-import { Calendar, Bell, Search, User, Filter } from 'lucide-react';
+import { getCelebrations } from '@/app/lib/db/celebrations';
+import { getEmployees } from '@/app/lib/db/employees';
+import { CelebrationCard } from '@/app/components/CelebrationCard';
+import { Users, PartyPopper, MessageSquare, Plus } from 'lucide-react';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Home() {
-  const data = await getAppData();
-  const upcomingEvents = calculateUpcomingEvents(data.employees, data.eventStates, 30);
+export default async function DashboardPage() {
+  const [celebrations, employees] = await Promise.all([
+    getCelebrations(),
+    getEmployees(),
+  ]);
 
-  // Calculate stats
-  const eventCount = upcomingEvents.length;
-  const employeeCount = data.employees.length;
+  const activeCelebrations = celebrations.filter(c => c.status !== 'archived');
+  const totalResponses = celebrations.reduce((sum, c) => sum + c.response_count, 0);
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="space-y-10 max-w-6xl">
 
-      {/* Header with Search and Actions */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-serif font-bold text-foreground">Good morning, Simen</h1>
-          <p className="text-muted-foreground mt-1">
-            Here's what's happening with your team today.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <div className="relative hidden md:block">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="h-10 w-64 rounded-full border border-input bg-background pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-          </div>
-          <button className="relative rounded-full bg-card p-2 text-muted-foreground hover:text-foreground border border-border shadow-sm">
-            <Bell className="h-5 w-5" />
-            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
-          </button>
-          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center border border-border shadow-sm">
-            <User className="h-5 w-5 text-primary" />
-          </div>
-        </div>
+      {/* Header */}
+      <div className="space-y-2">
+        <p className="text-xs uppercase tracking-[0.2em] text-amber-400 font-semibold">Oversikt</p>
+        <h1 className="text-4xl font-bold tracking-tight text-foreground" style={{ fontFamily: 'var(--font-playfair)' }}>
+          Dashboard
+        </h1>
+        <p className="text-muted-foreground">
+          Du har <span className="text-amber-400 font-semibold">{activeCelebrations.length}</span> aktive feiringer.
+        </p>
       </div>
 
-      {/* Stats Grid */}
-      <StatsGrid eventCount={eventCount} employeeCount={employeeCount} />
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Content - Timeline */}
-        <section className="lg:col-span-2 space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold font-serif text-foreground flex items-center gap-2">
-              Upcoming Events
-              <span className="text-xs font-sans font-normal bg-primary/10 text-primary px-2 py-1 rounded-full">{upcomingEvents.length}</span>
-            </h2>
-            <div className="flex gap-2">
-              <button className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1">
-                <Filter className="h-4 w-4" /> Filter
-              </button>
-              <button className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1">
-                <Calendar className="h-4 w-4" /> Calendar
-              </button>
+      {/* Stats row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          { icon: Users, label: "Teamstørrelse", value: employees.length.toString(), sub: "ansatte" },
+          { icon: PartyPopper, label: "Aktive feiringer", value: activeCelebrations.length.toString(), sub: "pågående" },
+          { icon: MessageSquare, label: "Bidrag totalt", value: totalResponses.toString(), sub: "svar mottatt" },
+        ].map((stat, idx) => (
+          <div key={idx} className="nord-card rounded-2xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/15 flex items-center justify-center">
+                <stat.icon className="w-4.5 h-4.5 text-amber-400" />
+              </div>
+              <span className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-medium">{stat.label}</span>
             </div>
+            <div className="text-3xl font-bold text-foreground" style={{ fontFamily: 'var(--font-playfair)' }}>
+              {stat.value}
+            </div>
+            <div className="text-xs text-muted-foreground mt-1">{stat.sub}</div>
           </div>
-
-          <div className="bg-card rounded-xl border border-border p-6 shadow-sm">
-            <EventTimeline events={upcomingEvents} employees={data.employees} />
-          </div>
-        </section>
-
-        {/* Sidebar Widget - Team & Quick Actions */}
-        <aside className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold font-serif text-foreground">Team Overview</h2>
-            <button className="text-sm font-medium text-primary hover:underline">View All</button>
-          </div>
-          <div className="bg-card rounded-xl border border-border p-6 shadow-sm">
-            <EmployeeList employees={data.employees} />
-          </div>
-
-          {/* Quick Actions / Featured Gift Placeholder */}
-          <div className="bg-primary/5 rounded-xl border border-primary/10 p-6">
-            <h3 className="font-bold text-foreground mb-2">Need a last-minute gift?</h3>
-            <p className="text-sm text-muted-foreground mb-4">Send a digital gift card instantly to any team member.</p>
-            <button className="w-full rounded-lg bg-primary py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
-              Send Gift Card
-            </button>
-          </div>
-        </aside>
+        ))}
       </div>
 
+      {/* Divider */}
+      <div className="editorial-line" />
+
+      {/* Quick action */}
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold text-foreground" style={{ fontFamily: 'var(--font-playfair)' }}>
+          Feiringer
+        </h2>
+        <Link
+          href="/celebrations/new"
+          className="flex items-center gap-2 px-5 py-2.5 bg-amber-500 text-white text-sm font-semibold rounded-xl hover:bg-amber-400 transition-all"
+        >
+          <Plus className="w-4 h-4" />
+          Ny feiring
+        </Link>
+      </div>
+
+      {/* Celebrations grid */}
+      {activeCelebrations.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {activeCelebrations.map(c => (
+            <CelebrationCard key={c.id} celebration={c} />
+          ))}
+        </div>
+      ) : (
+        <div className="nord-card rounded-2xl p-16 text-center">
+          <div className="w-16 h-16 bg-amber-500/10 border border-amber-500/15 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <PartyPopper className="w-7 h-7 text-amber-400" />
+          </div>
+          <h3 className="text-xl font-semibold text-foreground mb-2" style={{ fontFamily: 'var(--font-playfair)' }}>
+            Ingen feiringer ennå
+          </h3>
+          <p className="text-muted-foreground mb-6">Opprett din første tribute og la teamet dele fine ord.</p>
+          <Link
+            href="/celebrations/new"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-amber-500 text-white font-semibold rounded-xl hover:bg-amber-400 transition-all"
+          >
+            <Plus className="w-4 h-4" />
+            Opprett feiring
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
