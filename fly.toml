@@ -7,6 +7,9 @@ app = 'employee-gifting-mvp'
 primary_region = 'lhr'
 
 [build]
+  [build.args]
+    NEXT_PUBLIC_SUPABASE_URL = "https://ndjqxjzdcfgvnjuiqndt.supabase.co"
+    NEXT_PUBLIC_SUPABASE_ANON_KEY = "sb_publishable_voIe46SzWDXKKHxe5eW6Fw_0MBxsOKb"
 
 [http_service]
   internal_port = 3000
