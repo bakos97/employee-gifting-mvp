@@ -56,11 +56,18 @@ export interface CelebrationWithDetails extends Celebration {
   contributor_count: number;
 }
 
+export interface GiftCardData {
+  brand: string;
+  value: string;
+  message?: string;
+}
+
 export interface TributePageData {
   celebration: Celebration;
   employee: Employee;
   questions: (Question & { responses: Response[] })[];
   contributors: string[];
+  giftCard?: GiftCardData;
 }
 
 export interface ImportResult {

@@ -301,6 +301,13 @@ export default function LandingPage() {
                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                 </Link>
                                 <Link
+                                    href="/tribute/demo"
+                                    className="group inline-flex items-center gap-3 px-8 py-4 border border-amber-500/30 text-amber-400 font-semibold rounded-2xl hover:bg-amber-500/10 hover:border-amber-500/50 transition-all"
+                                >
+                                    <Eye className="w-4 h-4" />
+                                    Se demo
+                                </Link>
+                                <Link
                                     href="#how-it-works"
                                     className="inline-flex items-center gap-3 px-8 py-4 border border-border text-muted-foreground font-semibold rounded-2xl hover:border-amber-500/30 hover:text-foreground transition-all"
                                 >
@@ -650,6 +657,11 @@ export default function LandingPage() {
                                 Lag din første hyllest
                                 <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" />
                             </Link>
+                            <p className="mt-4 text-sm text-muted-foreground">
+                                <Link href="/tribute/demo" className="text-amber-400 hover:text-amber-300 transition-colors">
+                                    Eller se en demo først &rarr;
+                                </Link>
+                            </p>
                         </div>
                     </motion.div>
                 </div>

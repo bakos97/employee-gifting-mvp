@@ -294,3 +294,292 @@
 :root:not(.dark) .hover\:bg-amber-400:hover {
   background-color: hsl(36 85% 50%);
 }
+
+/* ═══════════════════════════════════
+   Gift-wrap background — warm amber
+   Actual wrapping paper color
+   ═══════════════════════════════════ */
+.bg-gift-wrap {
+  background:
+    linear-gradient(155deg, hsl(34 70% 72%) 0%, hsl(30 62% 65%) 50%, hsl(28 55% 60%) 100%);
+}
+
+.dark .bg-gift-wrap {
+  background:
+    linear-gradient(155deg, hsl(30 25% 15%) 0%, hsl(28 20% 12%) 50%, hsl(25 15% 10%) 100%);
+}
+
+/* Arrival page background — warm wrapping-paper feel */
+.bg-gift-arrival {
+  background:
+    linear-gradient(155deg, hsl(36 55% 85%) 0%, hsl(34 48% 80%) 50%, hsl(30 42% 76%) 100%);
+}
+
+.dark .bg-gift-arrival {
+  background:
+    linear-gradient(155deg, hsl(30 22% 14%) 0%, hsl(28 18% 11%) 50%, hsl(25 14% 9%) 100%);
+}
+
+/* Nordic diamond lattice pattern via SVG */
+.gift-wrap-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect x='22' y='22' width='16' height='16' rx='1' transform='rotate(45 30 30)' fill='none' stroke='%23b8860b' stroke-width='1' opacity='0.5'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%23b8860b' opacity='0.4'/%3E%3Ccircle cx='0' cy='0' r='1.5' fill='%23b8860b' opacity='0.3'/%3E%3Ccircle cx='60' cy='0' r='1.5' fill='%23b8860b' opacity='0.3'/%3E%3Ccircle cx='0' cy='60' r='1.5' fill='%23b8860b' opacity='0.3'/%3E%3Ccircle cx='60' cy='60' r='1.5' fill='%23b8860b' opacity='0.3'/%3E%3Cline x1='0' y1='0' x2='22' y2='22' stroke='%23b8860b' stroke-width='0.5' opacity='0.2'/%3E%3Cline x1='38' y1='38' x2='60' y2='60' stroke='%23b8860b' stroke-width='0.5' opacity='0.2'/%3E%3Cline x1='60' y1='0' x2='38' y2='22' stroke='%23b8860b' stroke-width='0.5' opacity='0.2'/%3E%3Cline x1='22' y1='38' x2='0' y2='60' stroke='%23b8860b' stroke-width='0.5' opacity='0.2'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 60px 60px;
+  opacity: 0.12;
+}
+
+.dark .gift-wrap-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect x='22' y='22' width='16' height='16' rx='1' transform='rotate(45 30 30)' fill='none' stroke='%23d4a847' stroke-width='1' opacity='0.4'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%23d4a847' opacity='0.3'/%3E%3Ccircle cx='0' cy='0' r='1.5' fill='%23d4a847' opacity='0.2'/%3E%3Ccircle cx='60' cy='0' r='1.5' fill='%23d4a847' opacity='0.2'/%3E%3Ccircle cx='0' cy='60' r='1.5' fill='%23d4a847' opacity='0.2'/%3E%3Ccircle cx='60' cy='60' r='1.5' fill='%23d4a847' opacity='0.2'/%3E%3Cline x1='0' y1='0' x2='22' y2='22' stroke='%23d4a847' stroke-width='0.5' opacity='0.15'/%3E%3Cline x1='38' y1='38' x2='60' y2='60' stroke='%23d4a847' stroke-width='0.5' opacity='0.15'/%3E%3Cline x1='60' y1='0' x2='38' y2='22' stroke='%23d4a847' stroke-width='0.5' opacity='0.15'/%3E%3Cline x1='22' y1='38' x2='0' y2='60' stroke='%23d4a847' stroke-width='0.5' opacity='0.15'/%3E%3C/svg%3E");
+  opacity: 0.08;
+}
+
+/* Crosshatch weave — paper fiber texture */
+.gift-wrap-stripes {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cline x1='0' y1='0' x2='8' y2='8' stroke='%23b8860b' stroke-width='0.5' opacity='0.5'/%3E%3Cline x1='8' y1='0' x2='0' y2='8' stroke='%23b8860b' stroke-width='0.5' opacity='0.3'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 8px 8px;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+}
+
+.dark .gift-wrap-stripes {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cline x1='0' y1='0' x2='8' y2='8' stroke='%23d4a847' stroke-width='0.5' opacity='0.4'/%3E%3Cline x1='8' y1='0' x2='0' y2='8' stroke='%23d4a847' stroke-width='0.5' opacity='0.2'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  mix-blend-mode: screen;
+}
+
+/* Fine paper grain via feTurbulence */
+.gift-wrap-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+}
+
+.dark .gift-wrap-grain {
+  opacity: 0.03;
+  mix-blend-mode: screen;
+}
+
+/* Fold crease lines — where the paper was folded */
+.gift-wrap-creases {
+  background-image:
+    linear-gradient(90deg, transparent 49.5%, hsl(30 40% 50% / 0.06) 50%, transparent 50.5%),
+    linear-gradient(0deg, transparent 49.5%, hsl(30 40% 50% / 0.04) 50%, transparent 50.5%);
+}
+
+.dark .gift-wrap-creases {
+  background-image:
+    linear-gradient(90deg, transparent 49.5%, hsl(30 40% 70% / 0.04) 50%, transparent 50.5%),
+    linear-gradient(0deg, transparent 49.5%, hsl(30 40% 70% / 0.03) 50%, transparent 50.5%);
+}
+
+/* Vignette — dark edges like looking inside an opened box */
+.gift-box-vignette {
+  background: radial-gradient(ellipse at center, transparent 50%, hsl(30 40% 25% / 0.2) 100%);
+}
+
+.dark .gift-box-vignette {
+  background: radial-gradient(ellipse at center, transparent 50%, hsl(30 10% 5% / 0.35) 100%);
+}
+
+/* ═══════════════════════════════════
+   Paper texture — reusable grain overlay
+   for cards and frames
+   ═══════════════════════════════════ */
+.paper-texture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* ═══════════════════════════════════
+   Tribute card — physical note on paper
+   ═══════════════════════════════════ */
+.tribute-card {
+  position: relative;
+  background:
+    linear-gradient(170deg, hsl(38 48% 84%) 0%, hsl(36 40% 80%) 50%, hsl(34 35% 77%) 100%);
+  border: 1px solid hsl(36 40% 68%);
+  border-radius: 0.75rem;
+  box-shadow:
+    3px 6px 20px hsl(30 50% 30% / 0.18),
+    1px 3px 6px hsl(30 50% 30% / 0.12),
+    inset 0 1px 0 hsl(38 50% 88%),
+    inset 0 -1px 0 hsl(34 30% 72%);
+}
+
+/* Paper grain overlay */
+.tribute-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+.tribute-card:hover {
+  border-color: hsl(36 50% 62%);
+  box-shadow:
+    4px 10px 32px hsl(30 50% 30% / 0.22),
+    2px 4px 8px hsl(30 50% 30% / 0.14),
+    inset 0 1px 0 hsl(38 50% 88%),
+    inset 0 -1px 0 hsl(34 30% 72%);
+}
+
+.dark .tribute-card {
+  background:
+    linear-gradient(170deg, hsl(30 15% 16%) 0%, hsl(28 12% 14%) 50%, hsl(25 10% 12%) 100%);
+  border-color: hsl(36 25% 22%);
+  box-shadow:
+    3px 6px 20px hsl(0 0% 0% / 0.35),
+    1px 3px 6px hsl(0 0% 0% / 0.25),
+    inset 0 1px 0 hsl(36 20% 20%),
+    inset 0 -1px 0 hsl(25 10% 10%);
+}
+
+.dark .tribute-card::after {
+  opacity: 0.03;
+}
+
+.dark .tribute-card:hover {
+  border-color: hsl(36 35% 28%);
+  box-shadow:
+    4px 10px 32px hsl(0 0% 0% / 0.45),
+    2px 4px 8px hsl(0 0% 0% / 0.3),
+    inset 0 1px 0 hsl(36 20% 22%),
+    inset 0 -1px 0 hsl(25 10% 10%);
+}
+
+/* ═══════════════════════════════════
+   Greeting card frame — folded card
+   ═══════════════════════════════════ */
+.greeting-card-frame {
+  position: relative;
+  background:
+    linear-gradient(180deg, hsl(36 45% 78%) 0%, hsl(34 38% 75%) 100%);
+  border: 1px solid hsl(36 40% 62% / 0.5);
+  box-shadow:
+    0 8px 40px hsl(30 50% 30% / 0.15),
+    0 2px 8px hsl(30 50% 30% / 0.08),
+    inset 0 2px 12px hsl(36 40% 70% / 0.2),
+    inset 0 0 60px hsl(36 40% 75% / 0.15);
+}
+
+/* Fold crease — top edge */
+.greeting-card-frame::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, hsl(36 30% 60% / 0.25), transparent);
+  z-index: 1;
+}
+
+/* Paper grain on greeting card */
+.greeting-card-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+.dark .greeting-card-frame {
+  background:
+    linear-gradient(180deg, hsl(30 15% 14%) 0%, hsl(25 12% 11%) 100%);
+  border-color: hsl(36 25% 20% / 0.5);
+  box-shadow:
+    0 8px 40px hsl(0 0% 0% / 0.4),
+    0 2px 8px hsl(0 0% 0% / 0.2),
+    inset 0 2px 12px hsl(0 0% 0% / 0.2),
+    inset 0 0 60px hsl(36 20% 15% / 0.3);
+}
+
+.dark .greeting-card-frame::before {
+  background: linear-gradient(90deg, transparent, hsl(36 20% 35% / 0.2), transparent);
+}
+
+.dark .greeting-card-frame::after {
+  opacity: 0.025;
+}
+
+/* ═══════════════════════════════════
+   Ribbon divider
+   ═══════════════════════════════════ */
+.ribbon-divider {
+  position: relative;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, hsl(36 85% 55% / 0.6) 20%, hsl(36 85% 50%) 50%, hsl(36 85% 55% / 0.6) 80%, transparent 100%);
+  border-radius: 2px;
+}
+
+.ribbon-divider::before,
+.ribbon-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: hsl(36 85% 50%);
+  border-radius: 50%;
+  box-shadow: 0 0 6px hsl(36 85% 50% / 0.4);
+}
+
+.ribbon-divider::before { left: 18%; }
+.ribbon-divider::after { right: 18%; }
+
+.dark .ribbon-divider {
+  background: linear-gradient(90deg, transparent 0%, hsl(38 80% 55% / 0.4) 20%, hsl(38 80% 50% / 0.7) 50%, hsl(38 80% 55% / 0.4) 80%, transparent 100%);
+}
+
+.dark .ribbon-divider::before,
+.dark .ribbon-divider::after {
+  background: hsl(38 80% 55% / 0.7);
+  box-shadow: 0 0 6px hsl(38 80% 55% / 0.3);
+}
+
+/* ═══════════════════════════════════
+   Wax seal — circular decorative badge
+   ═══════════════════════════════════ */
+.wax-seal {
+  background: radial-gradient(circle at 35% 35%, hsl(0 60% 52%), hsl(0 65% 42%) 50%, hsl(0 60% 35%) 100%);
+  box-shadow:
+    0 3px 8px hsl(0 60% 30% / 0.4),
+    inset 0 1px 2px hsl(0 40% 65% / 0.4),
+    inset 0 -2px 4px hsl(0 60% 25% / 0.3);
+}
+
+.dark .wax-seal {
+  background: radial-gradient(circle at 35% 35%, hsl(0 50% 45%), hsl(0 55% 35%) 50%, hsl(0 50% 28%) 100%);
+}
+
+/* ═══════════════════════════════════
+   Scrollbar hide — for carousel
+   ═══════════════════════════════════ */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

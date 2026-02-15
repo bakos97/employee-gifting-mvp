@@ -8,11 +8,13 @@ import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ id: string }>; searchParams: Promise<{ preview?: string }> }): Promise<Metadata> {
   const params = await props.params;
+  const searchParams = await props.searchParams;
+  const isPreview = searchParams?.preview === 'true';
   const celebration = await getCelebration(params.id);
 
-  if (!celebration) return { title: 'Hyllest' };
+  if (!celebration || (!isPreview && celebration.status !== 'published')) return { title: 'Hyllest' };
 
   return {
     title: `${celebration.title} | Hyllest`,
@@ -20,11 +22,13 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
   };
 }
 
-export default async function TributeRoute(props: { params: Promise<{ id: string }> }) {
+export default async function TributeRoute(props: { params: Promise<{ id: string }>; searchParams: Promise<{ preview?: string }> }) {
   const params = await props.params;
+  const searchParams = await props.searchParams;
+  const isPreview = searchParams?.preview === 'true';
   const celebration = await getCelebration(params.id);
 
-  if (!celebration || celebration.status !== 'published') return notFound();
+  if (!celebration || (!isPreview && celebration.status !== 'published')) return notFound();
 
   const [questions, responses] = await Promise.all([
     getQuestions(celebration.id),

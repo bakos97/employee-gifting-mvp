@@ -90,6 +90,17 @@ export default async function CelebrationDetailPage(props: { params: Promise<{ i
       {/* Actions */}
       <CelebrationAdminActions celebration={celebration} />
 
+      {/* Preview tribute page */}
+      <a
+        href={`${tributeUrl}?preview=true`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 px-5 py-2.5 bg-surface border border-border rounded-xl text-sm font-medium text-foreground hover:border-amber-500/30 hover:text-amber-400 transition-all"
+      >
+        <Eye className="w-4 h-4" />
+        Forhåndsvisning av hyllestside
+      </a>
+
       {/* Email invitations */}
       <SendInvitationsButton
         celebrationId={celebration.id}

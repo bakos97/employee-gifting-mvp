@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm uninstall:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(node:*)",
+      "Bash(git add:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(git stash pop:*)",
+      "Bash(git checkout:*)",
+      "Bash(git rm:*)",
+      "Bash(ls:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: Pivot to TributePage generator with Supabase backend\n\nReplace SQLite with Supabase \\(PostgreSQL + Storage\\). New celebration/tribute\nworkflow: admin creates celebrations, team contributes via shared links,\nsystem generates shareable tribute pages. Adds Excel employee import,\nlight/dark mode with Nordic Editorial theme, and complete UI overhaul.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(flyctl secrets set:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfix: Configure Fly.io build args for Supabase and use --local-only --yes\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)",
+      "Bash(flyctl volumes list:*)",
+      "WebFetch(domain:monica-christmas-gift-25.fly.dev)"
+    ]
+  }
+}
