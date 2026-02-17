@@ -8,7 +8,8 @@ import { TributeContributorCarousel, ContributorCard } from './TributeContributo
 import { TributeContributorList } from './TributeContributorList';
 import { TributeScratchCard } from './TributeScratchCard';
 import { TributeRevealWrapper } from './TributeRevealWrapper';
-import { Heart, ChevronDown, Sparkles } from 'lucide-react';
+import { Heart, ChevronDown } from 'lucide-react';
+import { GiftWrapRibbons } from './TributePage';
 
 const closingMessages: Record<CelebrationType, (name: string) => string> = {
   birthday: (name) => `Gratulerer med dagen, ${name}. Vi er heldige som har deg.`,
@@ -110,31 +111,6 @@ function OrnamentalDivider() {
   );
 }
 
-/* Recipient monogram — decorative circle with initials */
-function RecipientMonogram({ name }: { name: string }) {
-  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.6, delay: 0.5, type: 'spring', stiffness: 200, damping: 15 }}
-      className="mt-6 mb-2 inline-flex items-center justify-center"
-    >
-      <div
-        className="w-16 h-16 rounded-full flex items-center justify-center text-lg font-bold tracking-wide"
-        style={{
-          background: 'linear-gradient(135deg, hsl(36 80% 60%), hsl(36 85% 48%), hsl(30 70% 40%))',
-          color: 'hsl(36 30% 95%)',
-          boxShadow: '0 4px 16px hsl(36 80% 45% / 0.35), inset 0 1px 0 hsl(45 80% 75% / 0.4), inset 0 -2px 4px hsl(30 60% 30% / 0.2)',
-          fontFamily: 'var(--font-playfair)',
-        }}
-      >
-        {initials}
-      </div>
-    </motion.div>
-  );
-}
-
 /* Ribbon bow — decorative section divider */
 function RibbonBow() {
   return (
@@ -211,50 +187,26 @@ export function TributeContent({ data }: TributeContentProps) {
   }, [questions, contributors]);
 
   return (
-    <div className="relative min-h-screen bg-gift-wrap">
-      {/* Nordic diamond lattice pattern */}
-      <div className="fixed inset-0 gift-wrap-pattern pointer-events-none" />
-      {/* Crosshatch weave texture */}
-      <div className="fixed inset-0 gift-wrap-stripes pointer-events-none" />
-      {/* Fine paper grain */}
-      <div className="fixed inset-0 gift-wrap-grain pointer-events-none" />
+    <div className="relative min-h-screen gift-box-wrap">
       {/* Fold crease lines */}
       <div className="fixed inset-0 gift-wrap-creases pointer-events-none" />
       {/* Vignette — dark edges */}
       <div className="fixed inset-0 gift-box-vignette pointer-events-none z-[1]" />
-      {/* Warm ambient glows — larger and stronger */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[720px] bg-amber-500/20 rounded-full blur-[200px]" />
-        <div className="absolute bottom-1/4 left-1/4 w-[600px] h-[600px] bg-amber-600/15 rounded-full blur-[150px]" />
-        <div className="absolute top-2/3 right-1/4 w-[480px] h-[480px] bg-orange-500/10 rounded-full blur-[120px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-400/8 rounded-full blur-[180px]" />
-      </div>
+
+      {/* Gift-wrap ribbons behind content */}
+      <GiftWrapRibbons />
 
       {/* Floating gold sparkles */}
       <FloatingSparkles />
 
       {/* Hero — greeting card style */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden px-6 pt-8">
+      <section className="relative z-[2] min-h-[50vh] flex items-center justify-center overflow-hidden px-6 pt-8">
         <div className="relative text-center max-w-3xl mx-auto">
           {/* Corner flourishes */}
           <CornerFlourish className="absolute -top-8 -left-8 w-16 h-16 text-amber-500/30 -scale-x-100" />
           <CornerFlourish className="absolute -top-8 -right-8 w-16 h-16 text-amber-500/30" />
           <CornerFlourish className="absolute -bottom-8 -left-8 w-16 h-16 text-amber-500/30 -scale-x-100 -scale-y-100" />
           <CornerFlourish className="absolute -bottom-8 -right-8 w-16 h-16 text-amber-500/30 -scale-y-100" />
-
-          {/* Sparkle badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] as const }}
-            className="mb-5"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-xs uppercase tracking-[0.2em] text-amber-400 font-semibold">Hyllest</span>
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            </div>
-          </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -265,18 +217,6 @@ export function TributeContent({ data }: TributeContentProps) {
           >
             {celebration.title}
           </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
-            className="text-base sm:text-lg text-muted-foreground"
-          >
-            En hyllest til <span className="text-amber-400 font-semibold">{employee.name}</span> fra {contributors.length} kollega{contributors.length !== 1 ? 'er' : ''}
-          </motion.p>
-
-          {/* Recipient monogram */}
-          <RecipientMonogram name={employee.name} />
 
           {/* Ribbon divider */}
           <motion.div
@@ -300,7 +240,7 @@ export function TributeContent({ data }: TributeContentProps) {
       </section>
 
       {/* Main content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-20">
+      <div className="relative z-[2] max-w-5xl mx-auto px-4 sm:px-6 pb-20">
 
         {/* "Hilsener" section in a greeting-card frame */}
         <TributeRevealWrapper variant="lift">
@@ -318,7 +258,7 @@ export function TributeContent({ data }: TributeContentProps) {
                 className="text-2xl md:text-3xl font-bold text-foreground"
                 style={{ fontFamily: 'var(--font-playfair)' }}
               >
-                Fra dine kollegaer
+                Fra {employee.department || 'dine kollegaer'}
               </h2>
               <OrnamentalDivider />
             </div>
@@ -330,7 +270,7 @@ export function TributeContent({ data }: TributeContentProps) {
 
         <RibbonBow />
 
-        {/* Gift card with scratch-to-reveal */}
+        {/* Gift card with scratch-to-reveal — after letters */}
         {data.giftCard && (
           <TributeRevealWrapper variant="gift">
             <TributeScratchCard

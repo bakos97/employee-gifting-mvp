@@ -287,16 +287,6 @@ export function TributeScratchCard({ brand, value, recipientName, message }: Tri
         )}
       </div>
 
-      {/* Message below card */}
-      {message && (
-        <p
-          className="text-sm text-muted-foreground italic text-center"
-          style={{ fontFamily: 'var(--font-playfair)' }}
-        >
-          &ldquo;{message}&rdquo;
-        </p>
-      )}
-
       {/* Ribbon divider below */}
       <div className="ribbon-divider w-full max-w-xs mt-4" />
     </div>

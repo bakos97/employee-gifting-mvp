@@ -4,39 +4,27 @@ import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { CelebrationType } from '../../lib/types';
-import { Cake, Award, LogOut, Sparkles } from 'lucide-react';
-
 const typeConfig: Record<CelebrationType, {
-  label: string;
-  icon: typeof Cake;
   gradient: string;
   headline: (name: string) => string;
   subtitle: string;
 }> = {
   birthday: {
-    label: 'Bursdagshyllest',
-    icon: Cake,
     gradient: 'from-violet-500/20 via-amber-500/10 to-transparent',
     headline: (name) => `Gratulerer med dagen, ${name}!`,
     subtitle: 'Kollegaene dine har noe spesielt til deg',
   },
   anniversary: {
-    label: 'Jubileumshyllest',
-    icon: Award,
     gradient: 'from-amber-500/20 via-amber-600/10 to-transparent',
     headline: (name) => `Gratulerer med jubileet, ${name}!`,
     subtitle: 'Teamet ditt har samlet noen varme ord til deg',
   },
   farewell: {
-    label: 'Avskjedshyllest',
-    icon: LogOut,
     gradient: 'from-blue-500/20 via-amber-500/10 to-transparent',
     headline: (name) => `Kjære ${name}`,
     subtitle: 'Kollegaene dine ønsker å si noen ord før du går',
   },
   custom: {
-    label: 'Hyllest',
-    icon: Sparkles,
     gradient: 'from-emerald-500/20 via-amber-500/10 to-transparent',
     headline: (name) => `Kjære ${name}`,
     subtitle: 'Kollegaene dine har en overraskelse til deg',
@@ -142,7 +130,7 @@ interface TributeGiftArrivalProps {
   celebrationType: CelebrationType;
   customTypeLabel?: string | null;
   contributorCount: number;
-  onComplete: () => void;
+  onComplete: (boxRect?: DOMRect) => void;
 }
 
 export function TributeGiftArrival({
@@ -154,12 +142,12 @@ export function TributeGiftArrival({
 }: TributeGiftArrivalProps) {
   const [stage, setStage] = useState<Stage>('idle');
   const [pullProgress, setPullProgress] = useState(0);
+  const boxBodyRef = useRef<HTMLDivElement>(null);
+  const boxRectRef = useRef<DOMRect | null>(null);
   const onCompleteRef = useRef(onComplete);
   useEffect(() => { onCompleteRef.current = onComplete; });
 
   const config = typeConfig[celebrationType];
-  const displayType = celebrationType === 'custom' && customTypeLabel ? customTypeLabel : config.label;
-  const Icon = config.icon;
 
   const dragY = useMotionValue(0);
   const THRESHOLD = 120;
@@ -190,15 +178,17 @@ export function TributeGiftArrival({
     requestAnimationFrame(frame);
   }, [stage, dragY, THRESHOLD]);
 
-  // untied → revealing transition
+  // untied → capture box rect (still full size) then transition to revealing
   useEffect(() => {
     if (stage === 'untied') {
+      // Capture rect NOW while box is still at full size / opacity 1
+      boxRectRef.current = boxBodyRef.current?.getBoundingClientRect() ?? null;
       const timer = setTimeout(() => setStage('revealing'), 600);
       return () => clearTimeout(timer);
     }
   }, [stage]);
 
-  // revealing → confetti + complete
+  // revealing → confetti + complete (use pre-captured rect)
   useEffect(() => {
     if (stage === 'revealing') {
       const confettiTimer = setTimeout(() => {
@@ -240,7 +230,9 @@ export function TributeGiftArrival({
         });
       }, 500);
 
-      const completeTimer = setTimeout(() => onCompleteRef.current(), 1500);
+      const completeTimer = setTimeout(() => {
+        onCompleteRef.current(boxRectRef.current ?? undefined);
+      }, 1500);
       return () => {
         clearTimeout(confettiTimer);
         clearTimeout(completeTimer);
@@ -270,19 +262,6 @@ export function TributeGiftArrival({
         animate={isGone ? { opacity: 0, y: -30 } : { opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       >
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-6"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold uppercase tracking-wider">
-            <Icon className="w-3.5 h-3.5" />
-            {displayType}
-          </div>
-        </motion.div>
-
         {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -359,9 +338,9 @@ export function TributeGiftArrival({
         >
           {/* Box body — tappable for auto-play fallback */}
           <motion.div
-            className="w-48 h-40 sm:w-60 sm:h-48 md:w-72 md:h-56 rounded-2xl relative overflow-hidden cursor-pointer"
+            ref={boxBodyRef}
+            className="gift-box-wrap w-48 h-40 sm:w-60 sm:h-48 md:w-72 md:h-56 rounded-2xl relative overflow-hidden cursor-pointer"
             style={{
-              background: 'linear-gradient(155deg, #fbbf24 0%, #f59e0b 30%, #d97706 70%, #b45309 100%)',
               boxShadow: '0 25px 60px rgba(180, 83, 9, 0.4), 0 8px 20px rgba(245, 158, 11, 0.2), inset 0 1px 0 rgba(255,255,255,0.3)',
             }}
             animate={isRevealing ? { opacity: 0, scale: 0.7 } : { opacity: 1, scale: 1 }}
@@ -406,9 +385,8 @@ export function TributeGiftArrival({
 
           {/* Lid */}
           <motion.div
-            className="absolute -top-5 sm:-top-6 -left-4 sm:-left-5 -right-4 sm:-right-5 h-14 sm:h-16 rounded-2xl origin-bottom"
+            className="gift-box-wrap-lid absolute -top-5 sm:-top-6 -left-4 sm:-left-5 -right-4 sm:-right-5 h-14 sm:h-16 rounded-2xl origin-bottom"
             style={{
-              background: 'linear-gradient(155deg, #fcd34d 0%, #fbbf24 30%, #f59e0b 70%, #d97706 100%)',
               boxShadow: '0 -6px 25px rgba(245, 158, 11, 0.25), 0 4px 12px rgba(0,0,0,0.1), inset 0 2px 0 rgba(255,255,255,0.3)',
               rotateX: lidRotateX,
             }}
